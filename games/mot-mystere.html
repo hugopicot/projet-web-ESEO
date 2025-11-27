@@ -75,87 +75,87 @@
         <h1>Mot du Jour</h1>
         <div class="game-grid">
             <div class="game-row">
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-1">
                     <p class="game-letter-inside" id="game-letter-1"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter"  id="game-letter-container-2">
                     <p class="game-letter-inside" id="game-letter-2"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter"  id="game-letter-container-3">
                     <p class="game-letter-inside" id="game-letter-3"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter"  id="game-letter-container-4">
                     <p class="game-letter-inside" id="game-letter-4"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter"  id="game-letter-container-5">
                     <p class="game-letter-inside" id="game-letter-5"></p>
                 </div>
             </div>
             <div class="game-row">
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-6">
                     <p class="game-letter-inside" id="game-letter-6"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-7">
                     <p class="game-letter-inside" id="game-letter-7"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-8">
                     <p class="game-letter-inside" id="game-letter-8"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-9">
                     <p class="game-letter-inside" id="game-letter-9"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-10">
                     <p class="game-letter-inside" id="game-letter-10"></p>
                 </div>
             </div>
             <div class="game-row">
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-11">
                     <p class="game-letter-inside" id="game-letter-11"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-12">
                     <p class="game-letter-inside" id="game-letter-12"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-13">
                     <p class="game-letter-inside" id="game-letter-13"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-14">
                     <p class="game-letter-inside" id="game-letter-14"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-15">
                     <p class="game-letter-inside" id="game-letter-15"></p>
                 </div>
             </div>
             <div class="game-row">
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-16">
                     <p class="game-letter-inside" id="game-letter-16"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-17">
                     <p class="game-letter-inside" id="game-letter-17"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-18">
                     <p class="game-letter-inside" id="game-letter-18"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-19">
                     <p class="game-letter-inside" id="game-letter-19"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-20">
                     <p class="game-letter-inside" id="game-letter-20"></p>
                 </div>
             </div>
             <div class="game-row">
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-21">
                     <p class="game-letter-inside" id="game-letter-21"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-22">
                     <p class="game-letter-inside" id="game-letter-22"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-23">
                     <p class="game-letter-inside" id="game-letter-23"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-24">
                     <p class="game-letter-inside" id="game-letter-24"></p>
                 </div>
-                <div class="game-letter">
+                <div class="game-letter" id="game-letter-container-25">
                     <p class="game-letter-inside" id="game-letter-25"></p>
                 </div>
             </div>
@@ -224,6 +224,10 @@
     */
 
     let magicWord = 'ADIEU' //temp, ALWAYS UPPER CASE
+
+
+    let isRowChecked = [false, false, false, false, false] //each element (index) is a row
+    let gameStatus = 0 // 0 = pas gagner, 1 = gagner
     let currentRow = 0
     let currentGameLetterPosition = 1 //goes from 1 to 25 positions
     const possibleLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm']
@@ -243,8 +247,30 @@
         }
     })
 
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace') {
+            deleteLetter()
+        }
+    })
+
+    function deleteLetter() {
+        if (gameStatus) {
+            return
+        }
+
+        
+        const positionToChange = `game-letter-${currentGameLetterPosition - 1}`
+        const letterToChange = document.getElementById(positionToChange)
+        letterToChange.innerText = null
+
+        currentGameLetterPosition--
+    }
+
     function changeGameLetter(letter) {
         //1. Check row
+        if (gameStatus) {
+            return
+        }
         if (currentRow == 0 && currentGameLetterPosition === 6) {
             return
         } else if (currentRow == 1 && currentGameLetterPosition === 11) {
@@ -265,38 +291,54 @@
     }
 
     function executeCheck(currentGameLetterPosition) {
-        //If all 5 letters in the row, check word
-        if (currentGameLetterPosition === 6 || currentGameLetterPosition === 11 || currentGameLetterPosition === 16 || currentGameLetterPosition === 21) {
+        // If you won, dont check anymore
+        if (gameStatus) {
+            return
+        }
+        
+        if (currentGameLetterPosition === 6 || currentGameLetterPosition === 11 || currentGameLetterPosition === 16 || currentGameLetterPosition === 21 || currentGameLetterPosition=== 26) {
             // check word
-            // error: al dar enter muchas veces, me mueve la row infinitamente
-            let actualPosition = currentGameLetterPosition - 5 //fix this, actualPosition not working because after the first row, the magicWork[actualPosition - 1] is undefined
+            let actualPosition = currentGameLetterPosition - 5 
+            let correctLetters = 0
+
+
             for (let i = 0; i <= 4; i++) {
                 // check letter
                 let letterId = `game-letter-${actualPosition}`
+                let letterElementId = `game-letter-container-${actualPosition}`
                 let letterElement = document.getElementById(letterId)
+                let letterContainerElement = document.getElementById(letterElementId)
                 let letter = letterElement.innerHTML
                 letter.toLocaleUpperCase()
-                console.log(letter, magicWord[actualPosition - 1], letter == magicWord[actualPosition - 1])
-                if (letter == magicWord[actualPosition - 1]) {
+                if (letter == magicWord[i]) {
                     //1. Is letter in the same position
-                    letterElement.style = 'background-color: lime'
+                    letterContainerElement.style = 'background-color: lime; color: white'
+                    correctLetters++
                 } else if (letter == magicWord[0] || letter == magicWord[1] || letter == magicWord[2] || letter == magicWord[3] || letter == magicWord[4]) {
                     //2. Is letter in other position (checking all is better)
-                    letterElement.style = 'background-color: yellow'
+                    letterContainerElement.style = 'background-color: rgb(228, 168, 29); color: white'
                 } else {
                     //3. Letter is not in the word
-                    letterElement.style = 'background-color: gray'
+                    letterContainerElement.style = 'background-color: rgb(117, 117, 117); color: white'
                 }
                 actualPosition++ 
             }
-            currentRow++
+            if (correctLetters === 5) {
+                gameStatus = 1
+                alert('YOU WON')
+            } else {
+                if (currentRow === 5) {
+                    alert('You lose')
+                } else {
+                    isRowChecked[currentRow] = true
+                    currentRow++
+                }
+            }
+
         } else {
             // validation
             alert('4 letras o menos')
         }
-
-
-        
     }
 
 </script>
