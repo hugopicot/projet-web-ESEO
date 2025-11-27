@@ -228,6 +228,7 @@
 
     let isRowChecked = [false, false, false, false, false] //each element (index) is a row
     let gameStatus = 0 // 0 = pas gagner, 1 = gagner
+    let gameEnd = 0 //0 = pas fini, 1 = fini
     let currentRow = 0
     let currentGameLetterPosition = 1 //goes from 1 to 25 positions
     const possibleLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm']
@@ -254,23 +255,31 @@
     })
 
     function deleteLetter() {
-        if (gameStatus) {
+        if (gameEnd) {
             return
         }
 
-        
-        const positionToChange = `game-letter-${currentGameLetterPosition - 1}`
-        const letterToChange = document.getElementById(positionToChange)
-        letterToChange.innerText = null
+        // si la row actual esta checkeada, no borrar
+        // en general, al checkear la row, se tiene que bloquear: no se puede checkear otra vez, no se puede borrar ni agregar nada.
 
-        currentGameLetterPosition--
+        if (isRowChecked[currentRow]) { 
+            //the problem is in executeCheck, because after doing the check, it changes the current row to the next one, therefore jeopardizing this condition.
+            //if I do isRowChecked[currentRow - 1], it prohibits the letters of the actual row to be erased because is focusing in the 
+            return
+        } else {
+            const positionToChange = `game-letter-${currentGameLetterPosition - 1}`
+            const letterToChange = document.getElementById(positionToChange)
+            letterToChange.innerText = null
+            currentGameLetterPosition--
+        }
+
     }
 
     function changeGameLetter(letter) {
-        //1. Check row
-        if (gameStatus) {
+        if (gameEnd) {
             return
         }
+
         if (currentRow == 0 && currentGameLetterPosition === 6) {
             return
         } else if (currentRow == 1 && currentGameLetterPosition === 11) {
@@ -292,7 +301,7 @@
 
     function executeCheck(currentGameLetterPosition) {
         // If you won, dont check anymore
-        if (gameStatus) {
+        if (gameEnd) {
             return
         }
         
@@ -325,10 +334,13 @@
             }
             if (correctLetters === 5) {
                 gameStatus = 1
+                gameEnd = 1
                 alert('YOU WON')
             } else {
                 if (currentRow === 5) {
                     alert('You lose')
+                    gameStatus = 0
+                    gameEnd = 1
                 } else {
                     isRowChecked[currentRow] = true
                     currentRow++
