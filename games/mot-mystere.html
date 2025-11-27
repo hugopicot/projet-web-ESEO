@@ -1,1 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/mot-mystere.css">
+    <script src="/js/mot-mystere.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Mot Mystere</title>
+    <style>
+        .game-grid {
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+            height: 500px;
+        }
 
+        .game-row {
+            width: 500px;
+            height: 100px;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+
+        .game-letter {
+            width: 20%;
+            border: 1px solid rgba(128, 128, 128, 0.356);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-letter-inside {
+            padding: 0;
+            margin: 0;
+            font-size: 3rem;
+            font-weight:600;
+        }
+
+        .keyboard-container {
+            width: 800px;
+            height: 200px;
+            margin-top: 10%;
+            border: 1px solid black;
+            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .keyboard-row {
+            width: 100%;
+            height: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;    
+            gap: 1rem;
+        }
+
+        .keyboard-row div {
+            border: 1px solid rgba(128, 128, 128, 0.356);
+            border-radius: 10px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mot du Jour</h1>
+        <div class="game-grid">
+            <div class="game-row">
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-1"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-2"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-3"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-4"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-5"></p>
+                </div>
+            </div>
+            <div class="game-row">
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-6"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-7"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-8"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-9"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-10"></p>
+                </div>
+            </div>
+            <div class="game-row">
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-11"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-12"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-13"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-14"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-15"></p>
+                </div>
+            </div>
+            <div class="game-row">
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-16"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-17"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-18"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-19"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-20"></p>
+                </div>
+            </div>
+            <div class="game-row">
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-21"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-22"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-23"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-24"></p>
+                </div>
+                <div class="game-letter">
+                    <p class="game-letter-inside" id="game-letter-25"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="keyboard-container">
+            <div class="keyboard-row">
+                <div id="keyboard-letter-1">Q</div>
+                <div id="keyboard-letter-2">W</div>
+                <div id="keyboard-letter-3">E</div>
+                <div id="keyboard-letter-4">R</div>
+                <div id="keyboard-letter-5">T</div>
+                <div id="keyboard-letter-6">Y</div>
+                <div id="keyboard-letter-7">U</div>
+                <div id="keyboard-letter-8">I</div>
+                <div id="keyboard-letter-9">O</div>
+                <div id="keyboard-letter-10">P</div>
+            </div>
+
+            <div class="keyboard-row">
+                <div id="keyboard-letter-11">A</div>
+                <div id="keyboard-letter-12">S</div>
+                <div id="keyboard-letter-13">D</div>
+                <div id="keyboard-letter-14">F</div>
+                <div id="keyboard-letter-15">G</div>
+                <div id="keyboard-letter-16">H</div>
+                <div id="keyboard-letter-17">J</div>
+                <div id="keyboard-letter-18">K</div>
+                <div id="keyboard-letter-19">L</div>
+            </div>
+
+            <div class="keyboard-row">
+                <div>CHECK</div>
+                <div id="keyboard-letter-20">Z</div>
+                <div id="keyboard-letter-21">X</div>
+                <div id="keyboard-letter-22">C</div>
+                <div id="keyboard-letter-23">V</div>
+                <div id="keyboard-letter-24">B</div>
+                <div id="keyboard-letter-25">N</div>
+                <div id="keyboard-letter-26">M</div>
+                <div>ENTER</div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+<script>
+    /*
+        1. Check if the row is full
+            1a. If is not full: check the position of the letter (0, 1, 2, 3, 4)
+                1a.a. Fill next position (if position 0 is full, fill position 1)
+                1a.b. If last position filled = 4, remove listener
+            1b. If is full: check next row
+                1b.a. If last row filled is position 4, remove listener
+        2. Enter: for each position do:
+            2a. If all letters in the row filed, keep going. If not, alert error, you need all 5 letters
+            2b. Search the letter in the word
+                2b.a. If letter in the same position, change game-letter-inside.bg and keyboard-letter.bg to green
+                2b.b. If letter in different position, change game-letter-inside.bg and keyboard-letter.bg to yellow
+                2b.c. If not, change game-letter-inside.bg and keyboard-letter.bg to dark gray
+        3. Result: 
+            3a. If all letters green, then Game Over, WIN
+            3b. If not, check turn (row position)
+                3b.a. If row position <=3, keep going
+                3b.b. If row position = 4, Game Over, LOSE
+    */
+
+    let magicWord = 'ADIEU' //temp, ALWAYS UPPER CASE
+    let currentRow = 0
+    let currentGameLetterPosition = 1 //goes from 1 to 25 positions
+    const possibleLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm']
+    for (const possibleLetter of possibleLetters) {
+        document.addEventListener('keydown', function (event) {
+            if (event.key === possibleLetter || event.key === possibleLetter.toLocaleUpperCase()) {
+                const letter = event.key.toLocaleUpperCase()
+                changeGameLetter(letter)
+            }
+        })
+    }
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            executeCheck(currentGameLetterPosition)
+            // alert('hola')
+        }
+    })
+
+    function changeGameLetter(letter) {
+        //1. Check row
+        if (currentRow == 0 && currentGameLetterPosition === 6) {
+            return
+        } else if (currentRow == 1 && currentGameLetterPosition === 11) {
+            return
+        } else if (currentRow == 2 && currentGameLetterPosition === 16) {
+            return
+        }else if (currentRow == 3 && currentGameLetterPosition === 21) {
+            return
+        }else {
+            //1. Change letter
+            const positionToChange = `game-letter-${currentGameLetterPosition}`
+            const letterToChange = document.getElementById(positionToChange)
+            letterToChange.innerText = letter
+
+            //2. Change next position
+            currentGameLetterPosition++
+        } 
+    }
+
+    function executeCheck(currentGameLetterPosition) {
+        //If all 5 letters in the row, check word
+        if (currentGameLetterPosition === 6 || currentGameLetterPosition === 11 || currentGameLetterPosition === 16 || currentGameLetterPosition === 21) {
+            // check word
+            // error: al dar enter muchas veces, me mueve la row infinitamente
+            let actualPosition = currentGameLetterPosition - 5 //fix this, actualPosition not working because after the first row, the magicWork[actualPosition - 1] is undefined
+            for (let i = 0; i <= 4; i++) {
+                // check letter
+                let letterId = `game-letter-${actualPosition}`
+                let letterElement = document.getElementById(letterId)
+                let letter = letterElement.innerHTML
+                letter.toLocaleUpperCase()
+                console.log(letter, magicWord[actualPosition - 1], letter == magicWord[actualPosition - 1])
+                if (letter == magicWord[actualPosition - 1]) {
+                    //1. Is letter in the same position
+                    letterElement.style = 'background-color: lime'
+                } else if (letter == magicWord[0] || letter == magicWord[1] || letter == magicWord[2] || letter == magicWord[3] || letter == magicWord[4]) {
+                    //2. Is letter in other position (checking all is better)
+                    letterElement.style = 'background-color: yellow'
+                } else {
+                    //3. Letter is not in the word
+                    letterElement.style = 'background-color: gray'
+                }
+                actualPosition++ 
+            }
+            currentRow++
+        } else {
+            // validation
+            alert('4 letras o menos')
+        }
+
+
+        
+    }
+
+</script>
+</html>
