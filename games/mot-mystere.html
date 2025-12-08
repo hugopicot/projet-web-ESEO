@@ -8,6 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Mot Mystere</title>
     <style>
+        body {
+            font-family: 'Inter';font-size: 22px;
+            margin-top: 2rem;
+        }
+        /* JEU */
         .game-grid {
             display: grid;
             grid-template-columns: 1;
@@ -43,11 +48,11 @@
         }
 
 
+        /* KEYBOARD */
+
         .keyboard-container {
-            width: 800px;
-            height: 200px;
+            width: 100%;
             margin-top: 10%;
-            border: 1px solid black;
             gap: 1rem;
             display: flex;
             flex-direction: column;
@@ -66,11 +71,27 @@
             border: 1px solid rgba(128, 128, 128, 0.356);
             border-radius: 10px;
             width: 100%;
-            height: 100%;
+            height: 4rem;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+            background-color: #e2e8f0;
         }
+
+        .keyboard-row div:hover {
+            background-color: #a19e9e;
+            cursor: pointer;
+            transition: ease-in 0.2s;
+        }
+
+
+        .keyboard {
+            width: 50%;
+        }
+
+
         .page-container {
             width: 100%;
             height: 100%;
@@ -78,6 +99,21 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+
+        .backspace {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .check {
+            max-width: 50%;
+            max-height: 50%;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: xx-large;
         }
     </style>
 </head>
@@ -149,48 +185,65 @@
             </div>
         </div>
 
-        <div class="keyboard-container">
-            <div class="keyboard-row">
-                <div id="keyboard-letter-1">Q</div>
-                <div id="keyboard-letter-2">W</div>
-                <div id="keyboard-letter-3">E</div>
-                <div id="keyboard-letter-4">R</div>
-                <div id="keyboard-letter-5">T</div>
-                <div id="keyboard-letter-6">Y</div>
-                <div id="keyboard-letter-7">U</div>
-                <div id="keyboard-letter-8">I</div>
-                <div id="keyboard-letter-9">O</div>
-                <div id="keyboard-letter-10">P</div>
+        <div class="keyboard">
+            <div class="keyboard-container">
+                <div class="keyboard-row">
+                    <div id="keyboard-letter-1">Q</div>
+                    <div id="keyboard-letter-2">W</div>
+                    <div id="keyboard-letter-3">E</div>
+                    <div id="keyboard-letter-4">R</div>
+                    <div id="keyboard-letter-5">T</div>
+                    <div id="keyboard-letter-6">Y</div>
+                    <div id="keyboard-letter-7">U</div>
+                    <div id="keyboard-letter-8">I</div>
+                    <div id="keyboard-letter-9">O</div>
+                    <div id="keyboard-letter-10">P</div>
+                </div>
+    
+                <div class="keyboard-row">
+                    <div id="keyboard-letter-11">A</div>
+                    <div id="keyboard-letter-12">S</div>
+                    <div id="keyboard-letter-13">D</div>
+                    <div id="keyboard-letter-14">F</div>
+                    <div id="keyboard-letter-15">G</div>
+                    <div id="keyboard-letter-16">H</div>
+                    <div id="keyboard-letter-17">J</div>
+                    <div id="keyboard-letter-18">K</div>
+                    <div id="keyboard-letter-19">L</div>
+                </div>
+    
+                <div class="keyboard-row">
+                    <div><img src="../assets/check.svg" alt="check image" class="check" ></div>
+                    <div id="keyboard-letter-20">Z</div>
+                    <div id="keyboard-letter-21">X</div>
+                    <div id="keyboard-letter-22">C</div>
+                    <div id="keyboard-letter-23">V</div>
+                    <div id="keyboard-letter-24">B</div>
+                    <div id="keyboard-letter-25">N</div>
+                    <div id="keyboard-letter-26">M</div>
+                    <div><img src="../assets/backspace.svg" alt="backspace" class="backspace"></div>
+                </div>
             </div>
 
-            <div class="keyboard-row">
-                <div id="keyboard-letter-11">A</div>
-                <div id="keyboard-letter-12">S</div>
-                <div id="keyboard-letter-13">D</div>
-                <div id="keyboard-letter-14">F</div>
-                <div id="keyboard-letter-15">G</div>
-                <div id="keyboard-letter-16">H</div>
-                <div id="keyboard-letter-17">J</div>
-                <div id="keyboard-letter-18">K</div>
-                <div id="keyboard-letter-19">L</div>
-            </div>
-
-            <div class="keyboard-row">
-                <div>CHECK</div>
-                <div id="keyboard-letter-20">Z</div>
-                <div id="keyboard-letter-21">X</div>
-                <div id="keyboard-letter-22">C</div>
-                <div id="keyboard-letter-23">V</div>
-                <div id="keyboard-letter-24">B</div>
-                <div id="keyboard-letter-25">N</div>
-                <div id="keyboard-letter-26">M</div>
-                <div>ENTER</div>
-            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 <script>
+    // TODO:
+    /*
+        1. Save result, points to DB, and save result to user
+        2. Add navbar
+        3. Fetch the magic word from database
+        4. Add validation: you can only insert certain words. Do a fetch to the server of What words can we allow. Use public api or create one of our own
+        5. Add animations
+        6. Add post game, replace the alerts with something else
+        7. Being able to choose difficulty
+        8. Save progress always
+        9. Not being able to play until next word
+        
+    */
+
     let magicWord = 'ADIEU' //temp, ALWAYS UPPER CASE
     let currentRow = 0 //0 a 4
     let currentCol = 0 //0 a 4
@@ -218,6 +271,29 @@
         }
     })
 
+    document.querySelector('.keyboard-container').addEventListener('click', function(e) {
+        let key = e.target.closest('div');
+
+        if (!key) return;
+
+        const letter = key.textContent.trim().toLowerCase();
+
+        if (key.querySelector('.check')) {
+            handleEnter();
+            return;
+        }
+
+        if (key.querySelector('.backspace')) {
+            removeLetter();
+            return;
+        }
+
+        if (possibleLetters.includes(letter)) {
+            const clickedLetter = letter.toUpperCase();
+            addLetter(clickedLetter);
+        }
+    });
+
     function handleEnter() {
         // simple validation
         if (gameOver) return
@@ -232,13 +308,12 @@
 
 
     function checkRow() {
-        // 1. Check all 5 cells from the row
-        // 2. Primera pasada: marca verdes y cuenta cuantas vees aparece cada letra en la palabra secreta (restando las verdes)
-        // 3. Segunda pasada: marca amarillos o grises segun las cuentas restantes
-        // 4. Actualiza tambien el teclado virtual
-        // 5. Si todo verde -> victoria
-        // Si no y currentRow === 5 -> derrota
-        // Si no -> currentRow++, currentCol = 0
+        // 1. Get all 5 cells
+        // 2. Count how many times the letter appears
+        // 3. First Check: check all letters and see how many each letter is repeated
+        // 4. Second check: normal check
+        // 5. Check game status
+        // 6. If game can continue, continue
 
         if (gameOver) return
 
@@ -314,8 +389,8 @@
 
 
     function addLetter(letter) {
-        // 1. If game ended, does nothing and exits game
-        // 2. If currentCol === 5, does nothing and exits game
+        // 1. If game ended, does nothing
+        // 2. If currentCol === 5, does nothing
         // 3. If currentCol !== 5, adds letter (upperCase) in currentCol and currentRow
         // 4. Finally: columnCol++
     
@@ -328,7 +403,6 @@
         
         currentCol++
     }
-
 
     function removeLetter() {
         // 1. If gameOver, return
