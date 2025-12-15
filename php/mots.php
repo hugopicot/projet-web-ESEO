@@ -142,36 +142,18 @@ try {
         <button class="btn-jeu">Jouer</button>
     </div>
 
-    <!-- ----------- Mots mêlés (grilles de ta base) ----------- -->
-    <?php if (!empty($grilles)) : ?>
-        <?php foreach ($grilles as $g) : ?>
-            <div class="card-jeu">
-                <div class="jeu-info">
-                    <h3><?= htmlspecialchars($g['titre']) ?></h3>
-                    <p>Difficulté : <?= htmlspecialchars($g['difficulte']) ?>
-                        — Taille : <?= $g['largeur'] ?> × <?= $g['hauteur'] ?>
-                    </p>
-                </div>
-                <button class="btn-jeu">Jouer</button>
+    <!-- ----------- Mots mêlés  ----------- -->
+    <?php foreach($grilles as $g) :?>
+    <div class="card-jeu">
+            <div class="jeu-info">
+                <h3>Mot mélee</h3>
+                <sp> jouer  au niveau <?= htmlspecialchars($g['titre']) ?>!</sp>
             </div>
-        <?php endforeach; ?>
-    <?php else : ?>
-        <p>Aucune grille disponible pour le moment.</p>
-    <?php endif; ?>
-
+            <button class="btn-jeu">Jouer</button>
+        </div>
+       <?php endforeach; ?>
 </div>
 
 </body>
 </html>
-</DOCTYPE>
-
-
-
-
-
-
-
-
-
-
-
+</DOCTYPE html>
