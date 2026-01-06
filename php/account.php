@@ -79,7 +79,7 @@ if (isset($_POST["register"])) {
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
     <div class="container">
 
-        <a class="navbar-brand d-flex align-items-center" href="index.php">
+        <a class="navbar-brand d-flex align-items-center" href="../index.php">
             <img src="logo.png" height="40" class="me-2">
         </a>
 
