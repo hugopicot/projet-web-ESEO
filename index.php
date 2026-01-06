@@ -28,9 +28,10 @@ session_start();
 
         <div class="collapse navbar-collapse justify-content-center" id="menu">
             <ul class="navbar-nav navbar-nav-centered">
-                <li class="nav-item"><a class="nav-link" href="motdujour.php">Mot du jour</a></li>
-                <li class="nav-item"><a class="nav-link" href="motsfleches.php">Mots fléchés</a></li>
-                <li class="nav-item"><a class="nav-link" href="leaderboard.php">Leaderboard</a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="/projet-web-eseo/php/motdujour.php">Mot du jour</a></li> -->
+                <li class="nav-item"><a class="nav-link" href="/projet-web-eseo/php/jeu-mot-mystere.php">Mot du jour</a></li>
+                <li class="nav-item"><a class="nav-link" href="/projet-web-eseo/php/jeu-mot-melee.php">Mots fléchés</a></li>
+                <li class="nav-item"><a class="nav-link" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
             </ul>
 
             <div class="d-flex ms-auto nav-auth">
@@ -38,8 +39,11 @@ session_start();
                     <span class="me-3 fw-semibold">
                         Bonjour, <?= htmlspecialchars($_SESSION["pseudo"]) ?>
                     </span>
-                    <a href="./php/deconnexion.php" class="btn btn-outline-dark">Déconnexion</a>
+                    <a href="./php/profil.php" class="btn btn-outline-dark me-2">Profil</a>
+                    <a href="./php/admin.php" class="btn btn-outline-dark me-2">Admin</a>
+                    <a href="./php/deconexion.php" class="btn btn-outline-dark">Déconnexion</a>
                 <?php else: ?>
+                    <a href="./php/admin.php" class="btn btn-outline-dark me-2">Admin</a>
                     <a href="./php/account.php?mode=login" class="btn btn-outline-dark me-2">Connexion</a>
                     <a href="./php/account.php?mode=register" class="btn btn-dark">S'inscrire</a>
                 <?php endif; ?>
@@ -63,8 +67,8 @@ session_start();
                 </p>
 
                 <?php if (!isset($_SESSION["id"])): ?>
-                    <a href="account.php?mode=register" class="btn btn-dark btn-lg me-2">Créer un compte</a>
-                    <a href="account.php?mode=login" class="btn btn-outline-dark btn-lg">Se connecter</a>
+                    <a href="/projet-web-eseo/php/account.php?mode=register" class="btn btn-dark btn-lg me-2">Créer un compte</a>
+                    <a href="/projet-web-eseo/php/account.php?mode=login" class="btn btn-outline-dark btn-lg">Se connecter</a>
                 <?php endif; ?>
             </div>
         </div>

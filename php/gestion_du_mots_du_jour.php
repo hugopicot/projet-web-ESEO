@@ -3,7 +3,7 @@
 // Connexion à la base de données
 
 $host = 'localhost';
-$db   = 'jeu_mots';
+$db   = 'bdd_nova';
 $user = 'root';
 $pass = '';
 $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);

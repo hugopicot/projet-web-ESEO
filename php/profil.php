@@ -8,6 +8,7 @@ $message = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $new_pseudo = trim($_POST['pseudo']);
     $new_bio = trim($_POST['bio']);
+
     
     try {
         $stmt = $db->prepare("UPDATE utilisateur SET pseudo = ?, bio = ? WHERE id_utilisateur = ?");

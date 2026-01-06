@@ -134,6 +134,7 @@ body { background:#f3f6ff; padding-bottom:40px; }
 <div class="topbar d-flex justify-content-between align-items-center">
     <h4 class="mb-0">Admin — Gestion Utilisateurs & Grilles</h4>
     <div>
+        <a href="/projet-web-eseo/php/gestion_du_mots_du_jour.php"><button class="btn btn-primary btn-sm">+ Ajouter mot</button></a>
         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAddGrille">+ Ajouter grille</button>
     </div>
 </div>

@@ -5,7 +5,7 @@
 $servername = "localhost";
 $username   = "root";
 $password   = "";
-$dbname     = "jeu_mots";
+$dbname     = "bdd_nova";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
@@ -139,7 +139,7 @@ try {
             <h3>Mot du jour</h3>
             <p>Découvrez un nouveau mot chaque jour !</p>
         </div>
-        <button class="btn-jeu">Jouer</button>
+        <a href="/projet-web-eseo/php/jeu-mot-mystere.php"><button class="btn-jeu">Jouer</button></a>
     </div>
 
     <!-- ----------- Mots mêlés  ----------- -->
@@ -149,7 +149,9 @@ try {
                 <h3>Mot mélee</h3>
                 <sp> jouer  au niveau <?= htmlspecialchars($g['titre']) ?>!</sp>
             </div>
-            <button class="btn-jeu">Jouer</button>
+            <a href="/projet-web-eseo/php/jeu-mot-melee.php">
+                <button class="btn-jeu">Jouer</button>
+            </a>
         </div>
        <?php endforeach; ?>
 </div>
