@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Jeu de Mots Mêlés</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
         /* --- Style général --- */
         body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
+            font-family: 'Inter';font-size: 22px;
+            margin-top: 0rem;
         }
 
         .container {
@@ -97,6 +94,22 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/projet-web-eseo/games/mot-mystere.html">Mot du Jour</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/projet-web-eseo/games/mot-mele.html">Mots Melees</a>
+            </li>
+        </div>
+    </nav>
     <div class="container">
 
         <h1>Jeu de Mots Mêlés</h1>
@@ -107,14 +120,14 @@
                 <ul id="mots-a-trouver"></ul>
             </div>
             <div>
-    Temps écoulé : <span id="timer">0</span> secondes
-</div>
+                Temps écoulé : <span id="timer">0</span> secondes
+            </div>
 
             <!-- Grille du jeu -->
             <div id="grille"></div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
         // --- Liste de mots ---
         const mots = ["CHAT", "SOLEIL", "MOMILI", "LUNE", "ETOILE", "ARBRE", "MAISON", "FLEUR", "MER", "NEIGE","CHIEN","OISEAU"];

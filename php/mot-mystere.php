@@ -1,0 +1,159 @@
+<?php
+// =========================================
+// CONNEXION A LA BASE
+// =========================================
+$servername = "localhost";
+$username   = "root";
+$password   = "";
+$dbname     = "bdd_nova";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Récupérer toutes les grilles du jeu
+    $stmt = $conn->prepare("SELECT * FROM grille ORDER BY date_creation DESC");
+    $stmt->execute();
+    $grilles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    die("Erreur : " . $e->getMessage());
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Jeux</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background: #f5f8ff;
+        }
+
+        header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+        }
+
+        .nav-link-custom {
+            font-size: 18px;
+            margin: 0 20px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .nav-link-custom:hover {
+            color: #0d6efd;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 40px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .container-jeux {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .card-jeu {
+            width: 80%;
+            max-width: 850px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #dbe2ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .jeu-info h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .jeu-info p {
+            margin: 5px 0 0;
+            color: #666;
+        }
+
+        .btn-jeu {
+            padding: 12px 24px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            transition: 0.2s;
+        }
+        .btn-jeu:hover {
+            background: #0a58ca;
+        }
+    </style>
+
+</head>
+<body>
+
+<!-- ============================
+     HEADER
+=============================== -->
+<header>
+    <div class="d-flex justify-content-center">
+        <div class="nav-link-custom">Accueil</div>
+        <div class="nav-link-custom fw-bold text-primary">Jeux</div>
+        <div class="nav-link-custom">Leaderboard</div>
+        <div class="nav-link-custom"><i class="bi bi-person-circle fs-3"></i></div>
+    </div>
+</header>
+
+<!-- ============================
+     PAGE TITLE
+=============================== -->
+<h1 class="page-title">🎮 Liste des Jeux</h1>
+
+<!-- ============================
+
+=============================== -->
+<div class="container-jeux">
+
+    <!-- ----------- Mot du jour ----------- -->
+    <div class="card-jeu">
+        <div class="jeu-info">
+            <h3>Mot du jour</h3>
+            <p>Découvrez un nouveau mot chaque jour !</p>
+        </div>
+        <a href="/projet-web-eseo/php/jeu-mot-mystere.php"><button class="btn-jeu">Jouer</button></a>
+    </div>
+
+    <!-- ----------- Mots mêlés  ----------- -->
+    <?php foreach($grilles as $g) :?>
+    <div class="card-jeu">
+            <div class="jeu-info">
+                <h3>Mot mélee</h3>
+                <sp> jouer  au niveau <?= htmlspecialchars($g['titre']) ?>!</sp>
+            </div>
+            <button class="btn-jeu">Jouer</button>
+        </div>
+       <?php endforeach; ?>
+</div>
+
+</body>
+</html>
+</DOCTYPE html>
