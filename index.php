@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,8 @@
             padding: 20px;
             display: flex;
             justify-content: center;
+            flex-direction: column; /* Added for header */
+            align-items: center; /* Added for header */
         }
 
         .container {
@@ -22,6 +24,7 @@
             max-width:900px;
             width: 100%;
             height:700px;
+            margin-top: 20px; /* Added spacing */
         }
 
         h1 {
@@ -97,6 +100,8 @@
     </style>
 </head>
 <body>
+    <?php include 'includes/header.php'; ?>
+    
     <div class="container">
 
         <h1>Jeu de Mots Mêlés</h1>
