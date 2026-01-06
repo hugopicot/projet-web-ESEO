@@ -3,20 +3,30 @@ $servername = "localhost";
 $username   = "root";
 $password   = "";
 $dbname     = "bdd_nova";
+
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (PDOException $e) {
+
+    // Obtener el mot du jour y su id
+    $stmt = $conn->prepare("SELECT id_mot, mot FROM motdujour ORDER BY RAND() LIMIT 1");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $motMystere = strtoupper($result['mot']);
+    $currentMotId = $result['id_mot'];
+
+    // Crear nueva partida al cargar la página
+    $insertPartie = $conn->prepare("
+        INSERT INTO partie (date_debut, statut, id_utilisateur, id_mot)
+        VALUES (NOW(), 'en_cours', 1, :id_mot)
+    ");
+    $insertPartie->bindParam(':id_mot', $currentMotId);
+    $insertPartie->execute();
+    $currentPartieId = $conn->lastInsertId();
+
+} catch (PDOException $e) {
     die("Erreur de connexion DB : " . $e->getMessage());
 }
-
-$stmt = $conn->prepare("SELECT mot FROM motdujour ORDER BY RAND() LIMIT 1");
-$stmt->execute();
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-$motMystere = strtoupper($result['mot']);
-// $motMystere = ($result['mot']);
-
 ?>
 
 <!DOCTYPE html>
@@ -136,6 +146,49 @@ $motMystere = strtoupper($result['mot']);
             font-weight: bold;
             font-size: xx-large;
         }
+
+        /* PANTALLA FINAL */
+        #end-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        #end-screen h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        #end-screen p {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        #end-screen button {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #end-screen button:hover {
+            background-color: #388e3c;
+        }
     </style>
 </head>
 <body>
@@ -151,19 +204,11 @@ $motMystere = strtoupper($result['mot']);
                 <a class="nav-link" href="/projet-web-eseo/php/jeu-mot-mystere.php">Mot du Jour</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/projet-web-eseo/games/mot-mele.html">Mots Melees</a>
+                <a class="nav-link" href="/projet-web-eseo/php/jeu-mot-melee.php">Mots Melees</a>
             </li>
         </div>
     </nav>
     <div class="page-container">
-        <!-- <div>
-            <label for="">Difficulte</label>    
-            <select>
-                <option>Facile</option>
-                <option>Moyenne</option>
-                <option>Difficile</option>
-            </select>
-        </div> -->
         <p style="color: red; font-weight: bold;"><?php echo $motMystere; ?></p>
         <h1>Mot du Jour</h1>
         <div class="grid-container">
@@ -273,21 +318,34 @@ $motMystere = strtoupper($result['mot']);
 
         </div>
     </div>
+
+    <!-- PANTALLA DE FINALIZACIÓN -->
+    <div id="end-screen">
+        <h2 id="end-title"></h2>
+        <p id="end-message"></p>
+        <p id="end-points"></p>
+        <p id="end-word" style="font-size: 2rem; margin-top: 1rem;"></p>
+        <button onclick="location.reload()">Jouer à nouveau</button>
+        <a href="/projet-web-eseo/php/mot-mystere.php"><button>Retour à l'accueil</button></a>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 <script>
     // TODO:
     /*
-        1. Save result, points to DB, and save result to user
+        1. (LISTO) Save result, points to DB, and save result to user
             1a. (LISTO) Implement points
-            1b. Save result to DB (partie)
+            1b. (LISTO) Save result to DB (partie)
         2. (LISTO) Add navbar
         3. (LISTO) Fetch the magic word from database
-        4. (SEMI - LISTO) Add validation: you can only insert certain words. Do a fetch to the server of What words can we allow. Use public api or create one of our own
-        6. Add post game, replace the alerts with something else
+        4. (SEMI - LISTO) Add validation: you can only insert certain words
+            4a. Creer base de donnees
+            4b. Valider avec la bdd
+        6. (LISTO) Add post game, replace the alerts with something else
         7. Being able to choose difficulty
-        8. Save progress always
         9. Not being able to play until next word
+        10. Connect grille and id_utilisateur to mot du jour
         
     */
 
@@ -296,6 +354,7 @@ $motMystere = strtoupper($result['mot']);
     let currentCol = 0 //0 a 4
     let gameOver = false //boolean
     let attemptsUsed = 0
+    const partieId = <?php echo $currentPartieId; ?>
 
     const possibleLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm']
     for (const possibleLetter of possibleLetters) {
@@ -371,13 +430,6 @@ $motMystere = strtoupper($result['mot']);
 
     async function validateWord(word) {
         return true
-        // TO DO WHEN THERE IS A MOTS VALIDES TABLE
-        // try {
-        //     const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/fr/${word}`)
-        //     return response.ok
-        // } catch (error) {
-        //     return false
-        // }
     }
 
     function getPoints(attempts) {
@@ -388,6 +440,26 @@ $motMystere = strtoupper($result['mot']);
         if (attempts === 5) return 50
         if (attempts === 6) return 25
         return 0
+    }
+
+    async function saveGameResult(points, status) {
+        await fetch('save-game.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                partie_id: partieId,
+                score: points,
+                statut: status
+            })
+        });
+    }
+
+    function showEndScreen(title, message, points, word = '') {
+        document.getElementById('end-title').textContent = title;
+        document.getElementById('end-message').textContent = message;
+        document.getElementById('end-points').textContent = `Points obtenus : ${points}`;
+        document.getElementById('end-word').textContent = word;
+        document.getElementById('end-screen').style.display = 'flex';
     }
 
     function checkRow() {
@@ -455,15 +527,26 @@ $motMystere = strtoupper($result['mot']);
         // 5. Check game status
         if (correctCount === 5) {
             gameOver = true;
-            const points = getPoints(attemptsUsed)
-            alert(`FÉLICITATIONS ! Tu as gagné en ${attemptsUsed} essai${attemptsUsed > 1 ? 's' : ''} !\nPoints obtenus : ${points}`)
+            const points = getPoints(attemptsUsed);
+            showEndScreen(
+                'Félicitations !',
+                `Tu as trouvé le mot en ${attemptsUsed} essai${attemptsUsed > 1 ? 's' : ''} !`,
+                points
+            );
+            saveGameResult(points, 'victoire');
             return
         }
 
         // last row
         if (currentRow === 4) {
             gameOver = true
-            alert(`Dommage ! Tu as perdu.\nLe mot était : ${magicWord}\nPoints obtenus : 0`)
+            showEndScreen(
+                'Dommage !',
+                'Tu n\'as pas trouvé cette fois.',
+                0,
+                `Le mot était : ${magicWord}`
+            );
+            saveGameResult(0, 'defaite');
             return
         }
 

@@ -137,6 +137,16 @@ CREATE TABLE IF NOT EXISTS `progression` (
 
 -- --------------------------------------------------------
 
+-- DROP TABLE IF EXISTS `motsvalides`;
+-- CREATE TABLE IF NOT EXISTS `motsvalides` (
+--   `id_motvalide` int NOT NULL AUTO_INCREMENT,
+--   `motvalide` text NOT NULL,
+--   PRIMARY KEY (`id_motvalide`)
+-- )
+
+
+
+
 --
 -- Structure de la table `utilisateur`
 --
