@@ -30,7 +30,7 @@ try {
 
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="../css/styles.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -39,11 +39,11 @@ try {
             background: #f5f8ff;
         }
 
-        header {
+        /* header {
             background: white;
             padding: 15px 0;
             box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-        }
+        } */
 
         .nav-link-custom {
             font-size: 18px;
@@ -115,18 +115,41 @@ try {
      HEADER
 =============================== -->
 <header>
-    <div class="d-flex justify-content-center">
-        <div class="nav-link-custom">Accueil</div>
-        <div class="nav-link-custom fw-bold text-primary">Jeux</div>
-        <div class="nav-link-custom">Leaderboard</div>
-        <div class="nav-link-custom"><i class="bi bi-person-circle fs-3"></i></div>
-    </div>
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="../index.php">
+                <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav navbar-nav-centered">
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/mots.php">Jeux</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
+                </ul>
+
+                <div class="d-flex ms-auto nav-auth">
+                <?php if (isset($_SESSION["id"])): ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
+                <?php else: ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
+                <?php endif; ?>
+            </div>
+            </div>
+        </div>
+    </nav>
 </header>
 
 <!-- ============================
      PAGE TITLE
 =============================== -->
-<h1 class="page-title">🎮 Liste des Jeux</h1>
+<h1 class="page-title">Liste des Jeux</h1>
 
 <!-- ============================
 

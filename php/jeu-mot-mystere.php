@@ -34,13 +34,13 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/mot-mystere.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <script src="/js/mot-mystere.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Mot Mystere</title>
     <style>
         body {
-            font-family: 'Inter';font-size: 22px;
+            font-family: 'Inter';
             margin-top: 0rem;
         }
         /* JEU */
@@ -192,20 +192,32 @@ try {
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="../index.php">
+                <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
+            </a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/projet-web-eseo/php/jeu-mot-mystere.php">Mot du Jour</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/projet-web-eseo/php/jeu-mot-melee.php">Mots Melees</a>
-            </li>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav navbar-nav-centered">
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/mots.php">Jeux</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
+                </ul>
+
+                <div class="d-flex ms-auto nav-auth">
+                <?php if (isset($_SESSION["id"])): ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
+                <?php else: ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
+                <?php endif; ?>
+            </div>
+            </div>
         </div>
     </nav>
     <div class="page-container">
@@ -326,7 +338,7 @@ try {
         <p id="end-points"></p>
         <p id="end-word" style="font-size: 2rem; margin-top: 1rem;"></p>
         <button onclick="location.reload()">Jouer à nouveau</button>
-        <a href="/projet-web-eseo/php/mot-mystere.php"><button>Retour à l'accueil</button></a>
+        <a href="/projet-web-eseo/php/mots.php"><button>Retour à l'accueil</button></a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

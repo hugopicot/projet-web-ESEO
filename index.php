@@ -7,9 +7,14 @@ session_start();
     <meta charset="UTF-8">
     <title>JeuxNova – Jeux de mots quotidiens</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <style>
+        body {
+            font-family: 'Inter';font-size: 22px;
+            margin-top: 0rem;
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <body class="bg-white text-dark">
@@ -17,35 +22,27 @@ session_start();
 <!-- ================= NAVBAR ================= -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="logo.png" height="40" class="me-2" alt="JeuxNova">
-            <span class="fw-bold">JeuxNova</span>
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="./assets/logo.png" alt="Logo" height="40" class="me-2">
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-center" id="menu">
+        <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav navbar-nav-centered">
-                <!-- <li class="nav-item"><a class="nav-link" href="/projet-web-eseo/php/motdujour.php">Mot du jour</a></li> -->
-                <li class="nav-item"><a class="nav-link" href="/projet-web-eseo/php/jeu-mot-mystere.php">Mot du jour</a></li>
-                <li class="nav-item"><a class="nav-link" href="/projet-web-eseo/php/jeu-mot-melee.php">Mots fléchés</a></li>
-                <li class="nav-item"><a class="nav-link" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/mots.php">Jeux</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
             </ul>
 
             <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
-                    <span class="me-3 fw-semibold">
-                        Bonjour, <?= htmlspecialchars($_SESSION["pseudo"]) ?>
-                    </span>
-                    <a href="./php/profil.php" class="btn btn-outline-dark me-2">Profil</a>
-                    <a href="./php/admin.php" class="btn btn-outline-dark me-2">Admin</a>
-                    <a href="./php/deconexion.php" class="btn btn-outline-dark">Déconnexion</a>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
                 <?php else: ?>
-                    <a href="./php/admin.php" class="btn btn-outline-dark me-2">Admin</a>
-                    <a href="./php/account.php?mode=login" class="btn btn-outline-dark me-2">Connexion</a>
-                    <a href="./php/account.php?mode=register" class="btn btn-dark">S'inscrire</a>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
                 <?php endif; ?>
             </div>
         </div>

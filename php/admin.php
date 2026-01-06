@@ -130,6 +130,34 @@ body { background:#f3f6ff; padding-bottom:40px; }
 </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="../index.php">
+            <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav navbar-nav-centered">
+                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/mots.php">Jeux</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
+            </ul>
+
+            <div class="d-flex ms-auto nav-auth">
+                <?php if (isset($_SESSION["id"])): ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
+                <?php else: ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</nav>
 <div class="container mt-4">
 <div class="topbar d-flex justify-content-between align-items-center">
     <h4 class="mb-0">Admin — Gestion Utilisateurs & Grilles</h4>

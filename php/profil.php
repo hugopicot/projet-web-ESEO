@@ -89,7 +89,7 @@ $total_pages = ceil($total_items / $limit);
 
 // Historique des parties
 $stmt = $db->prepare("
-    SELECT p.date_fin, p.score, p.id_grille, p.id_mot, 
+    SELECT p.date_fin, p.statut, p.score, p.id_grille, p.id_mot, 
            CASE 
                WHEN p.id_grille IS NOT NULL THEN 'Mot mêlé'
                WHEN p.id_mot IS NOT NULL THEN 'Mot du jour'
@@ -135,18 +135,17 @@ $historique = $stmt->fetchAll();
 
         <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav navbar-nav-centered">
-                <li class="nav-item"><a class="nav-link fw-semibold" href="../games/mot-mystere.html">Mot du Jour</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="../games/mot-mele.html">Mots Mêlés</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="leaderboard.php">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/mots.php">Jeux</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
             </ul>
 
             <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
-                    <a class="btn btn-outline-dark me-2" href="profil.php">Mon Profil</a>
-                    <a class="btn btn-dark" href="deconexion.php">Déconnexion</a>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
                 <?php else: ?>
-                    <a class="btn btn-outline-dark me-2" href="account.php?mode=login">Connexion</a>
-                    <a class="btn btn-dark" href="account.php?mode=register">S'inscrire</a>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
+                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -219,6 +218,7 @@ $historique = $stmt->fetchAll();
                     <th>Jeu</th>
                     <th>Score</th>
                     <th>Détail</th>
+                    <th>Statut</th>
                 </tr>
             </thead>
             <tbody>
@@ -232,11 +232,12 @@ $historique = $stmt->fetchAll();
                                 if ($partie['nom_jeu'] == 'Mot mêlé') {
                                     echo gmdate("i:s", $partie['score']);
                                 } else {
-                                    echo $partie['score'] . ' essais';
+                                    echo $partie['score'];
                                 }
                                 ?>
                             </td>
                             <td><?php echo htmlspecialchars($partie['detail']); ?></td>
+                            <td><?php echo htmlspecialchars($partie['statut']); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
