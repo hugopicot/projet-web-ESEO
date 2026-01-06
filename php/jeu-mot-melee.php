@@ -8,16 +8,6 @@
     <style>
         body {
             font-family: 'Inter';
-            /* margin-top: 0rem; */
-        }
-
-        .container {
-            /* padding: 2rem 4rem; */
-            /* border-radius: 10px; */
-            /* box-shadow: 0 0 15px rgba(0,0,0,0.15); */
-            /* max-width:1000px;
-            width: 100%;
-            height:100%; */
         }
 
         h1 {
@@ -34,6 +24,40 @@
             margin-top: 20px;
         }
 
+        .info-top {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 1rem;
+            gap: 2rem;
+        }
+
+        .info-item {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .difficulte-info {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
         #mots-a-trouver {
             list-style: none;
             display: flex;
@@ -42,21 +66,14 @@
             flex-wrap: wrap;
             gap: 1rem;
             padding: 0;
-            /* padding: 0;
-            width: 100%;
-            max-width: 100%; */
+            justify-content: center;
         }
 
         #mots-a-trouver li {
             padding: 6px 12px;
             background: #ececec;
             border-radius: 6px;
-            /* margin-bottom: 8px; */
             font-size: 18px;
-            /* font-weight: bold; */
-            /* text-align: center; */
-            /* transition: 0.2s; */
-            /* width: 150px; */
         }
 
         #mots-a-trouver li.trouve {
@@ -71,9 +88,7 @@
             padding: 1rem;
         }
 
-
         .mots-trouver-div {
-            /* background-color: red; */
         }
 
         .mots-trouver-div ul {
@@ -106,6 +121,98 @@
         .case.trouvee {
             background: #afffb0 !important;
         }
+
+        .modal-content {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .score-final {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .game-complete {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .game-complete h5 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        #end-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        #end-screen h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #43a047;
+        }
+
+        #end-screen p {
+            font-size: 1.8rem;
+            margin: 0.8rem 0;
+        }
+
+        .score-final {
+            font-size: 4rem !important;
+            font-weight: bold;
+            color: #667eea;
+            margin: 1.5rem 0 !important;
+        }
+
+        #end-screen button {
+            padding: 1rem 2rem;
+            font-size: 1.3rem;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        #end-screen button:hover {
+            background-color: #388e3c;
+        }
+
+        #end-screen button:nth-of-type(2) {
+            background-color: #667eea;
+        }
+
+        #end-screen button:nth-of-type(2):hover {
+            background-color: #764ba2;
+        }
     </style>
 </head>
 <body>
@@ -126,14 +233,9 @@
                 </ul>
 
                 <div class="d-flex ms-auto nav-auth">
-                <?php if (isset($_SESSION["id"])): ?>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
-                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
-                <?php else: ?>
                     <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
                     <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
-                <?php endif; ?>
-            </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -142,21 +244,39 @@
         <h1>Mots Mêlés</h1>
 
         <div class="mb-3 text-center">
-            <select id="difficulte" class="form-select w-50 mx-auto">
-                <option value="10">Facile (10x10)</option>
-                <option value="15">Moyenne (15x15)</option>
-                <option value="20">Difficile (20x20)</option>
-            </select>
+            <div class="difficulte-info" id="difficulte-text">
+                Facile (10x10)
+            </div>
+        </div>
+
+        <div class="info-top">
+            <div class="info-item">
+                <div class="info-label">Temps</div>
+                <div class="info-value" id="timer">0s</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Score</div>
+                <div class="info-value" id="score">0</div>
+            </div>
         </div>
 
         <div class="zone-jeu">
-            <div>
-                Temps écoulé : <span id="timer">0</span> secondes
-            </div>
             <div class="mots-trouver-div">
                 <ul id="mots-a-trouver"></ul>
             </div>
             <div id="grille"></div>
+        </div>
+    </div>
+
+    <!-- Pantalla de finalización -->
+    <div id="end-screen">
+        <h2>Félicitations !</h2>
+        <p id="end-message">Vous avez trouvé tous les mots !</p>
+        <p>Temps écoulé : <strong id="end-time">0 secondes</strong></p>
+        <p class="score-final" id="end-points">0 points</p>
+        <div>
+            <button onclick="location.reload()">Jouer à nouveau</button>
+            <button onclick="window.location.href='/projet-web-eseo/php/mots.php'">Retour aux Jeux</button>
         </div>
     </div>
 
@@ -166,6 +286,45 @@
         let taille = 10;
         let grille = [];
         let placements = [];
+        let motsTrouves = 0;
+        let jeuTermine = false;
+
+        // Système de points
+        const pointsBase = {
+            10: 400,
+            15: 700,
+            20: 1000
+        };
+
+        const tempsReference = {
+            10: 180,
+            15: 300,
+            20: 420
+        };
+
+        function getCoeffcientTemps(tempsEnSecondes, talle) {
+            const tempsRef = tempsReference[talle];
+            const difference = tempsEnSecondes - tempsRef;
+
+            if (tempsEnSecondes <= tempsRef) {
+                return 1.00;
+            } else if (difference <= 60) {
+                return 0.85;
+            } else if (difference <= 120) {
+                return 0.70;
+            } else if (difference <= 180) {
+                return 0.55;
+            } else {
+                return 0.40;
+            }
+        }
+
+        function calculerPointage(tempsEnSecondes, talle) {
+            const pointsBaseValue = pointsBase[talle];
+            const coefficent = getCoeffcientTemps(tempsEnSecondes, talle);
+            const pointageFinal = Math.round(pointsBaseValue * coefficent);
+            return pointageFinal;
+        }
 
         const liste = document.getElementById("mots-a-trouver");
         mots.forEach(mot => {
@@ -176,11 +335,12 @@
         });
 
         let temps = 0;
-        let timerId=null;
+        let timerId = null;
         function demarrerTimer() {
             timerId = setInterval(() => {
                 temps++;
-                document.getElementById("timer").textContent = temps;
+                const secondes = temps;
+                document.getElementById("timer").textContent = secondes + "s";
             }, 1000);
         }
         demarrerTimer();
@@ -249,6 +409,16 @@
             placements = [];
             grilleDiv.innerHTML = "";
             grilleDiv.style.gridTemplateColumns = `repeat(${taille}, 40px)`;
+            motsTrouves = 0;
+            jeuTermine = false;
+
+            // Actualiser le texte de difficulté
+            const difficultText = {
+                10: "Facile (10x10)",
+                15: "Moyenne (15x15)",
+                20: "Difficile (20x20)"
+            };
+            document.getElementById("difficulte-text").textContent = difficultText[nouvelleTaille] || "Facile (10x10)";
 
             placerTousLesMots();
 
@@ -273,6 +443,17 @@
             });
         }
 
+        function actualiserScore() {
+            if (motsTrouves === mots.length) {
+                const pointage = calculerPointage(temps, taille);
+                document.getElementById("score").textContent = pointage;
+                return pointage;
+            } else {
+                document.getElementById("score").textContent = "0";
+                return 0;
+            }
+        }
+
         function verifierSelection() {
             const casesSelectionnees = [...document.querySelectorAll(".case.selectionnee")];
             if (casesSelectionnees.length === 0) return;
@@ -289,17 +470,67 @@
                             c.classList.add("trouvee");
                         });
                         document.getElementById("mot-" + mot).classList.add("trouve");
-                        alert("Bravo ! Tu as trouvé le mot : " + mot);
+                        motsTrouves++;
+                        actualiserScore();
+
+                        // Vérifier si le jeu est complété
+                        if (motsTrouves === mots.length && !jeuTermine) {
+                            jeuTermine = true;
+                            terminerJeu();
+                        }
+
                         return;
                     }
                 }
             }
         }
 
-        document.getElementById("difficulte").addEventListener("change", (e) => {
-            genererGrille(parseInt(e.target.value));
-        });
+        function terminerJeu() {
+            clearInterval(timerId);
+            const pointageFinal = calculerPointage(temps, taille);
 
+            // Actualiser score en temps réel
+            document.getElementById("score").textContent = pointageFinal;
+
+            // Afficher la pantalla final
+            document.getElementById("end-time").textContent = temps + " secondes";
+            document.getElementById("end-points").textContent = pointageFinal + " points";
+
+            document.getElementById("end-screen").style.display = "flex";
+
+            // Enregistrer le score dans la base de données
+            enregistrerPointage(pointageFinal);
+        }
+
+        function enregistrerPointage(pointage) {
+            // Obtenir id_grille s'il existe dans l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const id_grille = urlParams.get('id');
+
+            const donnees = {
+                pointage: pointage,
+                talle: taille,
+                temps: temps,
+                id_grille: id_grille || null
+            };
+
+            fetch('../api/enregistrer_pointage.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(donnees)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Pointage enregistré:', data);
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'enregistrement du pointage:', error);
+            });
+        }
+
+        // Initialiser la grille avec taille par défaut
         genererGrille(10);
     </script>
 </body>

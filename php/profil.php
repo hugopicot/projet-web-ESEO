@@ -141,6 +141,7 @@ $historique = $stmt->fetchAll();
 
             <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/admin.php">Admin</a>
                     <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
                     <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
                 <?php else: ?>
@@ -196,7 +197,7 @@ $historique = $stmt->fetchAll();
             <div class="card border shadow-sm text-center p-4 h-100">
                 <h5 class="fw-bold text-primary mb-3">📅 Mot du jour</h5>
                 <p class="display-5 fw-bold mb-1"><?php echo $moy_essais; ?></p>
-                <small class="text-muted">Essais moyens</small>
+                <small class="text-muted">Score moyen</small>
             </div>
         </div>
         <div class="col-md-4">

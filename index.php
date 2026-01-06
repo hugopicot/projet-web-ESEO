@@ -38,6 +38,7 @@ session_start();
 
             <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/admin.php">Admin</a>
                     <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
                     <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
                 <?php else: ?>

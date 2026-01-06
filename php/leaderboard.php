@@ -194,6 +194,7 @@ function formatScore($score, $game) {
 
             <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/admin.php">Admin</a>
                     <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
                     <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
                 <?php else: ?>
@@ -206,8 +207,8 @@ function formatScore($score, $game) {
 </nav>
 
 <!-- CONTENU -->
-<div class="container mt-5">
-    <h1 class="text-center fw-bold mb-4">🏆 Leaderboard</h1>
+<div class="container mt-4">
+    <h1 class="text-center fw-bold mb-4">Leaderboard</h1>
     
     <!-- Filtres -->
     <div class="text-center mb-4">

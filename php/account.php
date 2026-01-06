@@ -22,7 +22,7 @@ if (isset($_POST["login"])) {
         $_SESSION["pseudo"] = $user["pseudo"];
         $_SESSION["role"] = $user["role"];
 
-        header("Location: index.php");
+        header("Location: /projet-web-eseo/index.php");
         exit;
     } else {
         $erreur_login = "Identifiants incorrects.";
@@ -94,6 +94,7 @@ if (isset($_POST["register"])) {
 
             <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
+                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/admin.php">Admin</a>
                     <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
                     <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
                 <?php else: ?>
