@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $servername = "localhost";
 $username   = "root";
 $password   = "";
@@ -194,7 +196,7 @@ try {
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="../index.php">
+            <a class="navbar-brand d-flex align-items-center" href="/projet-web-eseo/index.php">
                 <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
             </a>
 
@@ -222,8 +224,8 @@ try {
         </div>
     </nav>
     <div class="page-container">
-        <p style="color: red; font-weight: bold;"><?php echo $motMystere; ?></p>
-        <h1>Mot du Jour</h1>
+        <!-- <p style="color: red; font-weight: bold;"><?php echo $motMystere; ?></p> -->
+        <h1 class="page-title mt-4">Mot du Jour</h1>
         <div class="grid-container">
             <div class="game-grid">
                 <div class="game-row">

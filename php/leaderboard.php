@@ -178,7 +178,7 @@ function formatScore($score, $game) {
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="../index.php">
+        <a class="navbar-brand d-flex align-items-center" href="/projet-web-eseo/index.php">
             <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
         </a>
 

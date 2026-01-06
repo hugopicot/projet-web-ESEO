@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // ---------- CONFIG DB ----------
 $servername = "localhost";
 $username   = "root";

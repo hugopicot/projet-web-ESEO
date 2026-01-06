@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -218,7 +221,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="../index.php">
+            <a class="navbar-brand d-flex align-items-center" href="/projet-web-eseo/index.php">
                 <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
             </a>
 
@@ -233,8 +236,14 @@
                 </ul>
 
                 <div class="d-flex ms-auto nav-auth">
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
-                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
+                    <?php if (isset($_SESSION["id"])): ?>
+                        <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/admin.php">Admin</a>
+                        <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
+                        <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
+                    <?php else: ?>
+                        <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
+                        <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -275,13 +284,37 @@
         <p>Temps écoulé : <strong id="end-time">0 secondes</strong></p>
         <p class="score-final" id="end-points">0 points</p>
         <div>
-            <button onclick="location.reload()">Jouer à nouveau</button>
+            <button onclick="recommencerJeu()">Jouer à nouveau</button>
             <button onclick="window.location.href='/projet-web-eseo/php/mots.php'">Retour aux Jeux</button>
         </div>
     </div>
 
+
     <script>
-        const mots = ["CHAT", "SOLEIL", "MOMILI", "LUNE", "ETOILE", "ARBRE", "MAISON", "FLEUR", "MER", "NEIGE","CHIEN","OISEAU"];
+        let mots = [];
+
+        // Fonction pour obtenir des mots aléatoires depuis la base de données
+        async function obtenirMotsAleatoires() {
+            try {
+                const response = await fetch('get_random_words.php');
+                const data = await response.json();
+
+                if (data.success) {
+                    mots = data.words;
+                    return true;
+                } else {
+                    console.error('Erreur lors de la récupération des mots:', data.error);
+                    // Mots par défaut en cas d'erreur
+                    mots = ["CHAT", "SOLEIL", "MOMILI", "LUNE", "ETOILE", "ARBRE", "MAISON", "FLEUR", "MER", "NEIGE", "CHIEN", "OISEAU"];
+                    return true;
+                }
+            } catch (error) {
+                console.error('Erreur de réseau:', error);
+                // Mots par défaut en cas d'erreur
+                mots = ["CHAT", "SOLEIL", "MOMILI", "LUNE", "ETOILE", "ARBRE", "MAISON", "FLEUR", "MER", "NEIGE", "CHIEN", "OISEAU"];
+                return true;
+            }
+        }
 
         let taille = 10;
         let grille = [];
@@ -326,13 +359,17 @@
             return pointageFinal;
         }
 
-        const liste = document.getElementById("mots-a-trouver");
-        mots.forEach(mot => {
-            const li = document.createElement("li");
-            li.textContent = mot;
-            li.id = "mot-" + mot;
-            liste.appendChild(li);
-        });
+        // Fonction pour afficher les mots à trouver
+        function afficherMots() {
+            const liste = document.getElementById("mots-a-trouver");
+            liste.innerHTML = ""; // Vider la liste existante
+            mots.forEach(mot => {
+                const li = document.createElement("li");
+                li.textContent = mot;
+                li.id = "mot-" + mot;
+                liste.appendChild(li);
+            });
+        }
 
         let temps = 0;
         let timerId = null;
@@ -343,8 +380,6 @@
                 document.getElementById("timer").textContent = secondes + "s";
             }, 1000);
         }
-        demarrerTimer();
-
         const grilleDiv = document.getElementById("grille");
 
         const directions = [
@@ -507,19 +542,15 @@
             const urlParams = new URLSearchParams(window.location.search);
             const id_grille = urlParams.get('id');
 
-            const donnees = {
-                pointage: pointage,
-                talle: taille,
-                temps: temps,
-                id_grille: id_grille || null
-            };
+            const formData = new FormData();
+            formData.append('pointage', pointage);
+            formData.append('taille', taille);
+            formData.append('temps', temps);
+            formData.append('id_grille', id_grille || '');
 
-            fetch('../api/enregistrer_pointage.php', {
+            fetch(window.location.href, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(donnees)
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
@@ -530,8 +561,104 @@
             });
         }
 
-        // Initialiser la grille avec taille par défaut
-        genererGrille(10);
+        // Initialiser le jeu avec des mots aléatoires
+        async function initialiserJeu() {
+            await obtenirMotsAleatoires();
+            afficherMots();
+            genererGrille(10);
+            demarrerTimer();
+        }
+
+        // Fonction pour recommencer le jeu avec de nouveaux mots
+        async function recommencerJeu() {
+            // Réinitialiser les variables du jeu
+            motsTrouves = 0;
+            jeuTermine = false;
+            temps = 0;
+            document.getElementById("timer").textContent = "0s";
+            document.getElementById("score").textContent = "0";
+
+            // Cacher l'écran de fin
+            document.getElementById("end-screen").style.display = "none";
+
+            // Obtenir de nouveaux mots et réinitialiser le jeu
+            await obtenirMotsAleatoires();
+            afficherMots();
+            genererGrille(10);
+            demarrerTimer();
+        }
+
+        initialiserJeu();
     </script>
+
+    <?php
+    // Traiter la soumission du score si c'est une requête POST
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pointage'])) {
+        header('Content-Type: application/json');
+
+        try {
+            include '../includes/db.php';
+
+            $pointage = (int)$_POST['pointage'];
+            $taille = (int)$_POST['taille'];
+            $temps = (int)$_POST['temps'];
+            $id_grille = !empty($_POST['id_grille']) ? (int)$_POST['id_grille'] : null;
+
+            // Pour les utilisateurs non connectés, utiliser un ID utilisateur par défaut (anonyme)
+            // ou créer une session anonyme
+            if (!isset($_SESSION['id_utilisateur'])) {
+                // Vérifier si on a déjà un utilisateur anonyme pour cette session
+                if (!isset($_SESSION['id_utilisateur_anon'])) {
+                    // Créer un utilisateur anonyme temporaire (id_utilisateur = 1 pour les tests)
+                    $_SESSION['id_utilisateur_anon'] = 1; // Utilisateur par défaut pour les parties anonymes
+                }
+                $id_utilisateur = $_SESSION['id_utilisateur_anon'];
+            } else {
+                $id_utilisateur = $_SESSION['id_utilisateur'];
+            }
+
+            // Créer une nouvelle partie
+            $stmt = $pdo->prepare("
+                INSERT INTO partie (date_debut, date_fin, score, statut, id_utilisateur, id_grille)
+                VALUES (NOW(), NOW(), :pointage, 'completed', :id_utilisateur, :id_grille)
+            ");
+
+            $stmt->execute([
+                ':pointage' => $pointage,
+                ':id_utilisateur' => $id_utilisateur,
+                ':id_grille' => $id_grille
+            ]);
+
+            $id_partie = $pdo->lastInsertId();
+
+            // Enregistrer dans le leaderboard
+            $stmt_leaderboard = $pdo->prepare("
+                INSERT INTO leaderboard (score, date_entree, id_partie)
+                VALUES (:pointage, NOW(), :id_partie)
+            ");
+
+            $stmt_leaderboard->execute([
+                ':pointage' => $pointage,
+                ':id_partie' => $id_partie
+            ]);
+
+            echo json_encode([
+                'success' => true,
+                'id_partie' => $id_partie,
+                'pointage' => $pointage,
+                'message' => 'Pointage enregistré avec succès'
+            ]);
+
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Erreur dans la base de données: ' . $e->getMessage()
+            ]);
+        }
+
+        exit; // Terminer l'exécution pour les requêtes AJAX
+    }
+    ?>
 </body>
 </html>

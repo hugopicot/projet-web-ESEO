@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // =========================================
 // CONNEXION A LA BASE
 // =========================================
@@ -27,13 +29,9 @@ try {
     <head>
         <meta charset="UTF-8">
         <title>Jeux</title>
-
-
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/styles.css">
-
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
         <style>
             body {
                 /* background: #f5f8ff; */
@@ -107,10 +105,8 @@ try {
                 background: #0a58ca;
             }
         </style>
-
     </head>
     <body>
-
     <!-- ============================
         HEADER
     =============================== -->
@@ -118,7 +114,7 @@ try {
         <!-- ================= NAVBAR ================= -->
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="../index.php">
+                <a class="navbar-brand d-flex align-items-center" href="/projet-web-eseo/index.php">
                     <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
                 </a>
 
@@ -147,13 +143,7 @@ try {
         </nav>
     </header>
 
-    <!-- ============================
-        PAGE TITLE
-    =============================== -->
 
-    <!-- ============================
-
-    =============================== -->
     <h1 class="page-title mt-4">Liste des Jeux</h1>
         <div class="container-jeux">
             <!-- ----------- Mot du jour ----------- -->
