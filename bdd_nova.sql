@@ -159,6 +159,8 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `pseudo` varchar(100) NOT NULL,
   `role` varchar(50) NOT NULL,
   `date_creation` datetime NOT NULL,
+  `bio` TEXT NULL,
+  `avatar` VARCHAR(255) NULL,
   PRIMARY KEY (`id_utilisateur`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
