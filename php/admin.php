@@ -1,5 +1,5 @@
 <?php
-// ---------- CONFIG DB ----------
+
 $servername = "localhost";
 $username   = "root";
 $password   = "";
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id > 0 && $role !== '') {
             $stmt = $conn->prepare("UPDATE utilisateur SET role = ? WHERE id_utilisateur = ?");
             $stmt->execute([$role, $id]);
-            $messages[] = "Rôle mis à jour.";
+            $messages[] = "Rôle mise à jour.";
         }
     }
     // --- Supprimer utilisateur ---
@@ -116,291 +116,293 @@ function h($s){ return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<title>Admin - Gestion</title>
+    <meta charset="utf-8">
+    <title>Admin - Gestion</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body { background:#f3f6ff; padding-bottom:40px; }
-.topbar { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.06); padding:12px 20px; margin-bottom:20px; }
-.panel { background:#fff; border-radius:12px; padding:18px; border:1px solid #e6ecff; }
-.small-muted { color:#6c757d; font-size:0.9rem; }
-.table-wrap { max-height:380px; overflow:auto; }
-</style>
+    <style>
+        body { background:#f3f6ff; padding-bottom:40px; }
+        .topbar { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.06); padding:12px 20px; margin-bottom:20px; }
+        .panel { background:#fff; border-radius:12px; padding:18px; border:1px solid #e6ecff; }
+        .small-muted { color:#6c757d; font-size:0.9rem; }
+        .table-wrap { max-height:380px; overflow:auto; }
+    </style>
+
 </head>
 <body>
-<div class="container mt-4">
-<div class="topbar d-flex justify-content-between align-items-center">
-    <h4 class="mb-0">Admin — Gestion Utilisateurs & Grilles</h4>
-    <div>
-        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAddGrille">+ Ajouter grille</button>
-    </div>
-</div>
 
-<!-- messages -->
-<?php if (!empty($messages)): ?>
+<div class="container mt-4">
+    <div class="topbar d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Admin — Gestion Utilisateurs & Grilles</h4>
+        <div>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAddGrille">+ Ajouter grille</button>
+        </div>
+    </div>
+
+    <!-- messages -->
+    <?php if (!empty($messages)): ?>
     <div class="mb-3">
         <?php foreach ($messages as $m): ?>
-            <div class="alert alert-info py-2"><?= h($m) ?></div>
+        <div class="alert alert-info py-2"><?= h($m) ?></div>
         <?php endforeach; ?>
     </div>
-<?php endif; ?>
+    <?php endif; ?>
 
-<div class="row g-3">
+    <div class="row g-3">
 
-<!-- UTILISATEURS -->
-<div class="col-12 col-lg-6">
-<div class="panel">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0">Utilisateurs</h5>
-        <span class="small-muted"><?= count($users) ?> total</span>
-    </div>
+        <!-- UTILISATEURS -->
+        <div class="col-12 col-lg-6">
+            <div class="panel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Utilisateurs</h5>
+                    <span class="small-muted"><?= count($users) ?> total</span>
+                </div>
 
-    <div class="table-wrap">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Pseudo</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
-                    <th>Créé</th>
-                    <th class="text-end">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
+                <div class="table-wrap">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Pseudo</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th>Créé</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-            <?php if (!empty($users)): ?>
-            <?php foreach ($users as $u): ?>
-            <tr>
-                <td><?= h($u['pseudo']) ?></td>
-                <td><?= h($u['email']) ?></td>
-                <td><?= h($u['role']) ?></td>
-                <td><?= h($u['date_creation']) ?></td>
-                <td class="text-end">
-                    <button class="btn btn-sm btn-outline-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalEditRole"
-                            data-id="<?= $u['id_utilisateur'] ?>"
-                            data-role="<?= h($u['role']) ?>"
-                            data-pseudo="<?= h($u['pseudo']) ?>">
-                        Modifier rôle
-                    </button>
+                        <?php if (!empty($users)): ?>
+                        <?php foreach ($users as $u): ?>
+                        <tr>
+                            <td><?= h($u['pseudo']) ?></td>
+                            <td><?= h($u['email']) ?></td>
+                            <td><?= h($u['role']) ?></td>
+                            <td><?= h($u['date_creation']) ?></td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditRole"
+                                        data-id="<?= $u['id_utilisateur'] ?>"
+                                        data-role="<?= h($u['role']) ?>"
+                                        data-pseudo="<?= h($u['pseudo']) ?>">
+                                    Modifier rôle
+                                </button>
 
-                    <form method="post" style="display:inline-block" onsubmit="return confirm('Supprimer cet utilisateur ?');">
-                        <input type="hidden" name="action" value="delete_user">
-                        <input type="hidden" name="id_utilisateur" value="<?= $u['id_utilisateur'] ?>">
-                        <button class="btn btn-sm btn-outline-danger">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-            <?php else: ?>
-                <tr><td colspan="5">Aucun utilisateur</td></tr>
-            <?php endif; ?>
+                                <form method="post" style="display:inline-block" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                                    <input type="hidden" name="action" value="delete_user">
+                                    <input type="hidden" name="id_utilisateur" value="<?= $u['id_utilisateur'] ?>">
+                                    <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <tr><td colspan="5">Aucun utilisateur</td></tr>
+                        <?php endif; ?>
 
-            </tbody>
-        </table>
-    </div>
-</div>
-</div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-<!-- GRILLES -->
-<div class="col-12 col-lg-6">
-<div class="panel">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0">Grilles</h5>
-        <span class="small-muted"><?= count($grilles) ?> total</span>
-    </div>
+        <!-- GRILLES -->
+        <div class="col-12 col-lg-6">
+            <div class="panel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Grilles</h5>
+                    <span class="small-muted"><?= count($grilles) ?> total</span>
+                </div>
 
-    <div class="table-wrap">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Titre</th>
-                    <th>Difficulté</th>
-                    <th>Taille</th>
-                    <th>Créateur</th>
-                    <th class="text-end">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
+                <div class="table-wrap">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Difficulté</th>
+                            <th>Taille</th>
+                            <th>Créateur</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-            <?php if (!empty($grilles)): ?>
-            <?php foreach ($grilles as $g): ?>
-            <tr>
-                <td><?= h($g['titre']) ?></td>
-                <td><?= h($g['difficulte']) ?></td>
-                <td><?= h($g['largeur']) ?> × <?= h($g['hauteur']) ?></td>
-                <td><?= h($g['createur'] ?? '—') ?></td>
-                <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalEditGrille"
-                            data-id="<?= $g['id_grille'] ?>"
-                            data-titre="<?= h($g['titre']) ?>"
-                            data-difficulte="<?= h($g['difficulte']) ?>"
-                            data-largeur="<?= h($g['largeur']) ?>"
-                            data-hauteur="<?= h($g['hauteur']) ?>">
-                        Modifier
-                    </button>
+                        <?php if (!empty($grilles)): ?>
+                        <?php foreach ($grilles as $g): ?>
+                        <tr>
+                            <td><?= h($g['titre']) ?></td>
+                            <td><?= h($g['difficulte']) ?></td>
+                            <td><?= h($g['largeur']) ?> × <?= h($g['hauteur']) ?></td>
+                            <td><?= h($g['createur'] ?? '—') ?></td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditGrille"
+                                        data-id="<?= $g['id_grille'] ?>"
+                                        data-titre="<?= h($g['titre']) ?>"
+                                        data-difficulte="<?= h($g['difficulte']) ?>"
+                                        data-largeur="<?= h($g['largeur']) ?>"
+                                        data-hauteur="<?= h($g['hauteur']) ?>">
+                                    Modifier
+                                </button>
 
-                    <form method="post" style="display:inline-block" onsubmit="return confirm('Supprimer cette grille ?');">
-                        <input type="hidden" name="action" value="delete_grille">
-                        <input type="hidden" name="id_grille" value="<?= $g['id_grille'] ?>">
-                        <button class="btn btn-sm btn-outline-danger">Supprimer</button>
-                    </form>
+                                <form method="post" style="display:inline-block" onsubmit="return confirm('Supprimer cette grille ?');">
+                                    <input type="hidden" name="action" value="delete_grille">
+                                    <input type="hidden" name="id_grille" value="<?= $g['id_grille'] ?>">
+                                    <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                                </form>
 
-                    <a href="voir_grille.php?id=<?= $g['id_grille'] ?>" class="btn btn-sm btn-outline-info">
-                        Voir
-                    </a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-            <?php else: ?>
-                <tr><td colspan="5">Aucune grille</td></tr>
-            <?php endif; ?>
+                                <a href="voir_grille.php?id=<?= $g['id_grille'] ?>" class="btn btn-sm btn-outline-info">
+                                    Voir
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <tr><td colspan="5">Aucune grille</td></tr>
+                        <?php endif; ?>
 
-            </tbody>
-        </table>
-    </div>
-</div>
-</div>
-</div><!-- row -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div><!-- row -->
 </div><!-- container -->
 <!-- MODAL EDIT ROLE -->
 <div class="modal fade" id="modalEditRole" tabindex="-1">
-<div class="modal-dialog">
-    <form method="post" class="modal-content">
-        <input type="hidden" name="action" value="update_role">
-        <input type="hidden" name="id_utilisateur" id="er_id">
+    <div class="modal-dialog">
+        <form method="post" class="modal-content">
+            <input type="hidden" name="action" value="update_role">
+            <input type="hidden" name="id_utilisateur" id="er_id">
 
-        <div class="modal-header">
-            <h5 class="modal-title">Modifier le rôle — <span id="er_pseudo"></span></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier le rôle — <span id="er_pseudo"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
-        <div class="modal-body">
-            <label class="form-label">Rôle</label>
-            <select name="role" id="er_role" class="form-select" required>
-                <option value="user">user</option>
-                <option value="moderator">moderator</option>
-                <option value="admin">admin</option>
-            </select>
-        </div>
+            <div class="modal-body">
+                <label class="form-label">Rôle</label>
+                <select name="role" id="er_role" class="form-select" required>
+                    <option value="user">user</option>
+                    <option value="moderator">moderator</option>
+                    <option value="admin">admin</option>
+                </select>
+            </div>
 
-        <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button class="btn btn-primary">Enregistrer</button>
-        </div>
-    </form>
-</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary">Enregistrer</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- MODAL AJOUT GRILLE -->
 <div class="modal fade" id="modalAddGrille" tabindex="-1">
-<div class="modal-dialog">
-    <form method="post" class="modal-content">
-        <input type="hidden" name="action" value="add_grille">
+    <div class="modal-dialog">
+        <form method="post" class="modal-content">
+            <input type="hidden" name="action" value="add_grille">
 
-        <div class="modal-header">
-            <h5 class="modal-title">Ajouter une grille</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-
-        <div class="modal-body">
-
-            <label class="form-label">Titre</label>
-            <input name="titre" class="form-control" required>
-
-            <label class="form-label mt-2">Difficulté</label>
-            <input name="difficulte" class="form-control" required>
-
-            <div class="row mt-2">
-                <div class="col">
-                    <label class="form-label">Largeur</label>
-                    <input type="number" name="largeur" class="form-control" min="1" required>
-                </div>
-                <div class="col">
-                    <label class="form-label">Hauteur</label>
-                    <input type="number" name="hauteur" class="form-control" min="1" required>
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter une grille</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <label class="form-label mt-2">ID créateur</label>
-            <input type="number" name="id_utilisateur" class="form-control" placeholder="1">
+            <div class="modal-body">
 
-        </div>
+                <label class="form-label">Titre</label>
+                <input name="titre" class="form-control" required>
 
-        <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button class="btn btn-primary">Ajouter</button>
-        </div>
-    </form>
-</div>
+                <label class="form-label mt-2">Difficulté</label>
+                <input name="difficulte" class="form-control" required>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <label class="form-label">Largeur</label>
+                        <input type="number" name="largeur" class="form-control" min="1" required>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Hauteur</label>
+                        <input type="number" name="hauteur" class="form-control" min="1" required>
+                    </div>
+                </div>
+
+                <label class="form-label mt-2">ID créateur</label>
+                <input type="number" name="id_utilisateur" class="form-control" placeholder="1">
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary">Ajouter</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- MODAL EDIT GRILLE -->
 <div class="modal fade" id="modalEditGrille" tabindex="-1">
-<div class="modal-dialog">
-    <form method="post" class="modal-content">
-        <input type="hidden" name="action" value="edit_grille">
-        <input type="hidden" name="id_grille" id="eg_id">
+    <div class="modal-dialog">
+        <form method="post" class="modal-content">
+            <input type="hidden" name="action" value="edit_grille">
+            <input type="hidden" name="id_grille" id="eg_id">
 
-        <div class="modal-header">
-            <h5 class="modal-title">Modifier la grille</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-
-        <div class="modal-body">
-
-            <label class="form-label">Titre</label>
-            <input name="titre" id="eg_titre" class="form-control" required>
-
-            <label class="form-label mt-2">Difficulté</label>
-            <input name="difficulte" id="eg_difficulte" class="form-control" required>
-
-            <div class="row mt-2">
-                <div class="col">
-                    <label class="form-label">Largeur</label>
-                    <input type="number" name="largeur" id="eg_largeur" class="form-control" min="1" required>
-                </div>
-                <div class="col">
-                    <label class="form-label">Hauteur</label>
-                    <input type="number" name="hauteur" id="eg_hauteur" class="form-control" min="1" required>
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier la grille</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-        </div>
+            <div class="modal-body">
 
-        <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button class="btn btn-primary">Enregistrer</button>
-        </div>
-    </form>
-</div>
+                <label class="form-label">Titre</label>
+                <input name="titre" id="eg_titre" class="form-control" required>
+
+                <label class="form-label mt-2">Difficulté</label>
+                <input name="difficulte" id="eg_difficulte" class="form-control" required>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <label class="form-label">Largeur</label>
+                        <input type="number" name="largeur" id="eg_largeur" class="form-control" min="1" required>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Hauteur</label>
+                        <input type="number" name="hauteur" id="eg_hauteur" class="form-control" min="1" required>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary">Enregistrer</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// Pré-remplir modal rôle
-var modalEditRole = document.getElementById('modalEditRole');
-modalEditRole.addEventListener('show.bs.modal', function (event) {
-    var btn = event.relatedTarget;
-    document.getElementById('er_id').value = btn.getAttribute('data-id');
-    document.getElementById('er_role').value = btn.getAttribute('data-role');
-    document.getElementById('er_pseudo').innerText = btn.getAttribute('data-pseudo');
-});
+    // Pré-remplir modal rôle
+    var modalEditRole = document.getElementById('modalEditRole');
+    modalEditRole.addEventListener('show.bs.modal', function (event) {
+        var btn = event.relatedTarget;
+        document.getElementById('er_id').value = btn.getAttribute('data-id');
+        document.getElementById('er_role').value = btn.getAttribute('data-role');
+        document.getElementById('er_pseudo').innerText = btn.getAttribute('data-pseudo');
+    });
 
-// Pré-remplir modal grille
-var modalEditGrille = document.getElementById('modalEditGrille');
-modalEditGrille.addEventListener('show.bs.modal', function (event) {
-    var btn = event.relatedTarget;
-    document.getElementById('eg_id').value       = btn.getAttribute('data-id');
-    document.getElementById('eg_titre').value    = btn.getAttribute('data-titre');
-    document.getElementById('eg_difficulte').value = btn.getAttribute('data-difficulte');
-    document.getElementById('eg_largeur').value  = btn.getAttribute('data-largeur');
-    document.getElementById('eg_hauteur').value  = btn.getAttribute('data-hauteur');
-});
+    // Pré-remplir modal grille
+    var modalEditGrille = document.getElementById('modalEditGrille');
+    modalEditGrille.addEventListener('show.bs.modal', function (event) {
+        var btn = event.relatedTarget;
+        document.getElementById('eg_id').value       = btn.getAttribute('data-id');
+        document.getElementById('eg_titre').value    = btn.getAttribute('data-titre');
+        document.getElementById('eg_difficulte').value = btn.getAttribute('data-difficulte');
+        document.getElementById('eg_largeur').value  = btn.getAttribute('data-largeur');
+        document.getElementById('eg_hauteur').value  = btn.getAttribute('data-hauteur');
+    });
 </script>
 </body>
