@@ -192,7 +192,7 @@ $conn = $pdo;
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/projet-web-eseo/index.php">
+            <a class="navbar-brand d-flex align-items-center" href="../index.php">
                 <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
             </a>
 
@@ -202,18 +202,18 @@ $conn = $pdo;
 
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav navbar-nav-centered">
-                    <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/mots.php">Jeux</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="mots.php">Jeux</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="leaderboard.php">Leaderboard</a></li>
                 </ul>
 
                 <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/admin.php">Admin</a>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
-                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
+                    <a class="btn btn-outline-dark me-2" href="admin.php">Admin</a>
+                    <a class="btn btn-outline-dark me-2" href="profil.php">Mon Profil</a>
+                    <a class="btn btn-dark" href="deconexion.php">Déconnexion</a>
                 <?php else: ?>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
-                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
+                    <a class="btn btn-outline-dark me-2" href="account.php?mode=login">Connexion</a>
+                    <a class="btn btn-dark" href="account.php?mode=register">S'inscrire</a>
                 <?php endif; ?>
             </div>
             </div>
@@ -337,7 +337,7 @@ $conn = $pdo;
         <p id="end-points"></p>
         <p id="end-word" style="font-size: 2rem; margin-top: 1rem;"></p>
         <button onclick="location.reload()">Jouer à nouveau</button>
-        <a href="/projet-web-eseo/php/mots.php"><button>Retour à l'accueil</button></a>
+        <a href="mots.php"><button>Retour à l'accueil</button></a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

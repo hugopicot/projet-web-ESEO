@@ -32,18 +32,18 @@ session_start();
 
         <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav navbar-nav-centered">
-                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/mots.php">Jeux</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="php/mots.php">Jeux</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="php/leaderboard.php">Leaderboard</a></li>
             </ul>
 
             <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/admin.php">Admin</a>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
-                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
+                    <a class="btn btn-outline-dark me-2" href="php/admin.php">Admin</a>
+                    <a class="btn btn-outline-dark me-2" href="php/profil.php">Mon Profil</a>
+                    <a class="btn btn-dark" href="php/deconexion.php">Déconnexion</a>
                 <?php else: ?>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
-                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
+                    <a class="btn btn-outline-dark me-2" href="php/account.php?mode=login">Connexion</a>
+                    <a class="btn btn-dark" href="php/account.php?mode=register">S'inscrire</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -65,8 +65,8 @@ session_start();
                 </p>
 
                 <?php if (!isset($_SESSION["id"])): ?>
-                    <a href="/projet-web-eseo/php/account.php?mode=register" class="btn btn-dark btn-lg me-2">Créer un compte</a>
-                    <a href="/projet-web-eseo/php/account.php?mode=login" class="btn btn-outline-dark btn-lg">Se connecter</a>
+                    <a href="php/account.php?mode=register" class="btn btn-dark btn-lg me-2">Créer un compte</a>
+                    <a href="php/account.php?mode=login" class="btn btn-outline-dark btn-lg">Se connecter</a>
                 <?php endif; ?>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <?php
 function loadEnv($path) {
     if (!file_exists($path)) {
-        throw new Exception("Archivo .env no encontrado en: $path");
+        return false;
     }
 
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -10,9 +10,13 @@ function loadEnv($path) {
             continue;
         }
 
+        if (strpos($line, '=') === false) {
+            continue;
+        }
+
         list($name, $value) = explode('=', $line, 2);
         $name = trim($name);
-        $value = trim($value);
+        $value = trim($value, '"\'');
 
         if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
             putenv(sprintf('%s=%s', $name, $value));
@@ -20,27 +24,23 @@ function loadEnv($path) {
             $_SERVER[$name] = $value;
         }
     }
+    return true;
 }
 
-// Load environment variables
-try {
-    loadEnv(__DIR__ . '/../.env');
-} catch (Exception $e) {
-    die("Error loading environment variables: " . $e->getMessage());
-}
+$envPath = __DIR__ . '/../.env';
+loadEnv($envPath);
 
-// Database configuration from environment variables
-$host = getenv('DB_HOST') ?: 'localhost';
-$dbname = getenv('DB_NAME') ?: 'bdd_nova';
-$username = getenv('DB_USER') ?: 'root';
-$password = getenv('DB_PASS') ?: '';
+$host = getenv('DB_HOST') ?: 'mysql.railway.internal';
+$dbname = getenv('DB_NAME') ?: getenv('MYSQLDATABASE') ?: 'railway';
+$username = getenv('DB_USER') ?: getenv('MYSQLUSER') ?: 'root';
+$password = getenv('DB_PASS') ?: getenv('MYSQLPASSWORD') ?: '';
 $charset = getenv('DB_CHARSET') ?: 'utf8';
 
 try {
     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=$charset", $username, $password);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
-    die("Erreur connexion BDD : " . $e->getMessage());
+    die("Erreur connexion BDD. Verifica las variables de entorno.");
 }
 
 session_start();

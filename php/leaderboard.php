@@ -178,7 +178,7 @@ function formatScore($score, $game) {
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom position-relative">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="/projet-web-eseo/index.php">
+        <a class="navbar-brand d-flex align-items-center" href="../index.php">
             <img src="../assets/logo.png" alt="Logo" height="40" class="me-2">
         </a>
 
@@ -188,18 +188,18 @@ function formatScore($score, $game) {
 
         <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav navbar-nav-centered">
-                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/mots.php">Jeux</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="/projet-web-eseo/php/leaderboard.php">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="mots.php">Jeux</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="leaderboard.php">Leaderboard</a></li>
             </ul>
 
             <div class="d-flex ms-auto nav-auth">
                 <?php if (isset($_SESSION["id"])): ?>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/admin.php">Admin</a>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/profil.php">Mon Profil</a>
-                    <a class="btn btn-dark" href="/projet-web-eseo/php/deconexion.php">Déconnexion</a>
+                    <a class="btn btn-outline-dark me-2" href="admin.php">Admin</a>
+                    <a class="btn btn-outline-dark me-2" href="profil.php">Mon Profil</a>
+                    <a class="btn btn-dark" href="deconexion.php">Déconnexion</a>
                 <?php else: ?>
-                    <a class="btn btn-outline-dark me-2" href="/projet-web-eseo/php/account.php?mode=login">Connexion</a>
-                    <a class="btn btn-dark" href="/projet-web-eseo/php/account.php?mode=register">S'inscrire</a>
+                    <a class="btn btn-outline-dark me-2" href="account.php?mode=login">Connexion</a>
+                    <a class="btn btn-dark" href="account.php?mode=register">S'inscrire</a>
                 <?php endif; ?>
             </div>
         </div>
