@@ -96,6 +96,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $messages[] = "Grille supprimée.";
         }
     }
+
+    // --- Ajouter mot du jour ---
+    if ($_POST['action'] === 'add_mot') {
+        $mot = trim($_POST['mot']);
+        $definition = trim($_POST['definition']);
+        $id_utilisateur = (int) ($_POST['id_utilisateur'] ?? 1);
+
+        if ($mot !== '' && $definition !== '') {
+            $stmt = $conn->prepare("
+                INSERT INTO motdujour (mot, definition, id_utilisateur, date)
+                VALUES (:mot, :definition, :id_utilisateur, NOW())
+            ");
+            $stmt->execute([
+                ':mot' => $mot,
+                ':definition' => $definition,
+                ':id_utilisateur' => $id_utilisateur
+            ]);
+            $messages[] = "Mot du jour ajouté.";
+        }
+    }
+
+    // --- Modifier mot du jour ---
+    if ($_POST['action'] === 'edit_mot') {
+        $id_mot = (int) $_POST['id_mot'];
+        $mot = trim($_POST['mot']);
+        $definition = trim($_POST['definition']);
+
+        if ($id_mot > 0 && $mot !== '' && $definition !== '') {
+            $stmt = $conn->prepare("
+                UPDATE motdujour
+                SET mot = :mot, definition = :definition
+                WHERE id_mot = :id_mot
+            ");
+            $stmt->execute([
+                ':mot' => $mot,
+                ':definition' => $definition,
+                ':id_mot' => $id_mot
+            ]);
+            $messages[] = "Mot du jour modifié.";
+        }
+    }
+
+    // --- Supprimer mot du jour ---
+    if ($_POST['action'] === 'delete_mot') {
+        $id_mot = (int) $_POST['id_mot'];
+
+        if ($id_mot > 0) {
+            $stmt = $conn->prepare("DELETE FROM motdujour WHERE id_mot = :id_mot");
+            $stmt->execute([':id_mot' => $id_mot]);
+            $messages[] = "Mot du jour supprimé.";
+        }
+    }
 }
 
 // ---------- CHARGER DONNÉES ----------
@@ -111,6 +163,14 @@ $grilles = $conn->query("
     FROM grille g
     LEFT JOIN utilisateur u ON g.id_utilisateur = u.id_utilisateur
     ORDER BY g.date_creation DESC
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$mots = $conn->query("
+    SELECT m.id_mot, m.mot, m.definition, m.date, m.id_utilisateur,
+           u.pseudo AS createur
+    FROM motdujour m
+    LEFT JOIN utilisateur u ON m.id_utilisateur = u.id_utilisateur
+    ORDER BY m.date DESC
 ")->fetchAll(PDO::FETCH_ASSOC);
 
 // Fonction sécurité HTML
@@ -187,9 +247,9 @@ function h($s){ return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
         </nav>
         <div class="container mt-4">
             <div class="topbar d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">Admin — Gestion Utilisateurs, Grilles & Mots</h4>
+                <h4 class="mb-0">Admin — Gestion Utilisateurs, Grilles & Mots du Jour</h4>
                 <div>
-                    <a href="/projet-web-eseo/php/gestion_du_mots_du_jour.php"><button class="btn btn-primary btn-sm">+ Ajouter mot</button></a>
+                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalAddMot">+ Ajouter mot</button>
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAddGrille">+ Ajouter grille</button>
                 </div>
             </div>
@@ -321,6 +381,124 @@ function h($s){ return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
                         </div>
                     </div>
                 </div>
+
+                <!-- MOTS DU JOUR -->
+                <div class="col-12">
+                    <div class="panel">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Mots du Jour</h5>
+                            <span class="small-muted"><?= count($mots) ?> total</span>
+                        </div>
+
+                        <div class="table-wrap">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mot</th>
+                                        <th>Définition</th>
+                                        <th>Créateur</th>
+                                        <th>Date</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                <?php if (!empty($mots)): ?>
+                                <?php foreach ($mots as $m): ?>
+                                <tr>
+                                    <td><strong><?= h($m['mot']) ?></strong></td>
+                                    <td>
+                                        <small class="text-muted">
+                                            <?= strlen($m['definition']) > 100 ? h(substr($m['definition'], 0, 100)) . '...' : h($m['definition']) ?>
+                                        </small>
+                                    </td>
+                                    <td><?= h($m['createur'] ?? '—') ?></td>
+                                    <td><small><?= h($m['date']) ?></small></td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEditMot"
+                                                data-id="<?= $m['id_mot'] ?>"
+                                                data-mot="<?= h($m['mot']) ?>"
+                                                data-definition="<?= h($m['definition']) ?>">
+                                            Modifier
+                                        </button>
+
+                                        <form method="post" style="display:inline-block" onsubmit="return confirm('Supprimer ce mot du jour ?');">
+                                            <input type="hidden" name="action" value="delete_mot">
+                                            <input type="hidden" name="id_mot" value="<?= $m['id_mot'] ?>">
+                                            <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="5">Aucun mot du jour</td></tr>
+                                <?php endif; ?>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- MODAL AJOUT MOT DU JOUR -->
+        <div class="modal fade" id="modalAddMot" tabindex="-1">
+            <div class="modal-dialog">
+                <form method="post" class="modal-content">
+                    <input type="hidden" name="action" value="add_mot">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ajouter un mot du jour</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <label class="form-label">Mot</label>
+                        <input name="mot" class="form-control" required>
+
+                        <label class="form-label mt-2">Définition</label>
+                        <textarea name="definition" class="form-control" rows="3" required></textarea>
+
+                        <label class="form-label mt-2">ID Créateur</label>
+                        <input type="number" name="id_utilisateur" class="form-control" value="1" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-primary">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- MODAL EDIT MOT DU JOUR -->
+        <div class="modal fade" id="modalEditMot" tabindex="-1">
+            <div class="modal-dialog">
+                <form method="post" class="modal-content">
+                    <input type="hidden" name="action" value="edit_mot">
+                    <input type="hidden" name="id_mot" id="em_id">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifier le mot du jour</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <label class="form-label">Mot</label>
+                        <input name="mot" id="em_mot" class="form-control" required>
+
+                        <label class="form-label mt-2">Définition</label>
+                        <textarea name="definition" id="em_definition" class="form-control" rows="3" required></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -466,6 +644,15 @@ function h($s){ return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
                 document.getElementById('eg_difficulte').value = btn.getAttribute('data-difficulte');
                 document.getElementById('eg_largeur').value = btn.getAttribute('data-largeur');
                 document.getElementById('eg_hauteur').value = btn.getAttribute('data-hauteur');
+            });
+
+            // Pré-remplir modal mot du jour
+            let modalEditMot = document.getElementById('modalEditMot');
+            modalEditMot.addEventListener('show.bs.modal', function (event) {
+                let btn = event.relatedTarget;
+                document.getElementById('em_id').value = btn.getAttribute('data-id');
+                document.getElementById('em_mot').value = btn.getAttribute('data-mot');
+                document.getElementById('em_definition').value = btn.getAttribute('data-definition');
             });
         </script>
     </body>

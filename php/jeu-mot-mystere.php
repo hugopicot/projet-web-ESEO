@@ -18,10 +18,14 @@ try {
     $currentMotId = $result['id_mot'];
 
     // Crear nueva partida al cargar la página
+    session_start();
+    $userId = isset($_SESSION['id']) ? $_SESSION['id'] : 1; // Usar usuario logueado o ID 1 como fallback
+
     $insertPartie = $conn->prepare("
         INSERT INTO partie (date_debut, statut, id_utilisateur, id_mot)
-        VALUES (NOW(), 'en_cours', 1, :id_mot)
+        VALUES (NOW(), 'en_cours', :user_id, :id_mot)
     ");
+    $insertPartie->bindParam(':user_id', $userId);
     $insertPartie->bindParam(':id_mot', $currentMotId);
     $insertPartie->execute();
     $currentPartieId = $conn->lastInsertId();

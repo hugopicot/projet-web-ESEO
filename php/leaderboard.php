@@ -39,7 +39,7 @@ $sql = "
         u.id_utilisateur,
         u.pseudo,
         u.avatar,
-        MIN(p.score) as best_score
+        MAX(p.score) as best_score
     FROM partie p
     INNER JOIN utilisateur u ON p.id_utilisateur = u.id_utilisateur
     WHERE {$game_condition} 
@@ -65,7 +65,7 @@ function formatScore($score, $game) {
         $seconds = $score % 60;
         return sprintf("%d:%02d", $minutes, $seconds);
     }
-    return $score . " essais";
+    return $score . " points";
 }
 ?>
 <!DOCTYPE html>
