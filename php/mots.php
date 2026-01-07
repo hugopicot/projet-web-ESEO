@@ -4,23 +4,14 @@ session_start();
 // =========================================
 // CONNEXION A LA BASE
 // =========================================
-$servername = "localhost";
-$username   = "root";
-$password   = "";
-$dbname     = "bdd_nova";
-
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once __DIR__ . '/../includes/db.php';
+$conn = $pdo;
 
     // Récupérer toutes les grilles du jeu
     $stmt = $conn->prepare("SELECT * FROM grille ORDER BY date_creation DESC");
     $stmt->execute();
     $grilles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-} catch (PDOException $e) {
-    die("Erreur : " . $e->getMessage());
-}
 ?>
 
 

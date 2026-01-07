@@ -277,7 +277,6 @@ session_start();
         </div>
     </div>
 
-    <!-- Pantalla de finalización -->
     <div id="end-screen">
         <h2>Félicitations !</h2>
         <p id="end-message">Vous avez trouvé tous les mots !</p>

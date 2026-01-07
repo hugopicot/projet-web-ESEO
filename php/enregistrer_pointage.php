@@ -26,13 +26,8 @@ $temps = (int)$donnees['temps'];
 $id_grille = isset($donnees['id_grille']) && !empty($donnees['id_grille']) ? (int)$donnees['id_grille'] : null;
 
 try {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "bdd_nova";
-
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    require_once __DIR__ . '/../includes/db.php';
+    $conn = $pdo;
 
     // Créer une nouvelle partie
     $stmt = $conn->prepare("

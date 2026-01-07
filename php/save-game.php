@@ -1,14 +1,11 @@
 <?php
 header('Content-Type: application/json');
 
-$servername = "localhost";
-$username   = "root";
-$password   = "";
-$dbname     = "bdd_nova";
-
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// =========================================
+// CONNEXION A LA BASE
+// =========================================
+require_once __DIR__ . '/../includes/db.php';
+$conn = $pdo; 
 
     $input = json_decode(file_get_contents('php://input'), true);
 
@@ -35,7 +32,4 @@ try {
 
     echo json_encode(['success' => true]);
 
-} catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-}
 ?>

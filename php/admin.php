@@ -2,17 +2,8 @@
 session_start();
 
 // ---------- CONFIG DB ----------
-$servername = "localhost";
-$username   = "root";
-$password   = "";
-$dbname     = "bdd_nova";
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (PDOException $e) {
-    die("Erreur de connexion DB : " . $e->getMessage());
-}
+require_once __DIR__ . '/../includes/db.php';
+$conn = $pdo;
 $messages = [];
 
 // ---------- TRAITEMENT DES ACTIONS ----------

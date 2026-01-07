@@ -1,12 +1,9 @@
 <?php
 
-// Connexion à la base de données
-
-$host = 'localhost';
-$db   = 'bdd_nova';
-$user = 'root';
-$pass = '';
-$pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+// =========================================
+// CONNEXION A LA BASE
+// =========================================
+require_once __DIR__ . '/../includes/db.php';
 
 
 // Ajouter un mot du jour

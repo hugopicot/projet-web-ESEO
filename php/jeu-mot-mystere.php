@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username   = "root";
-$password   = "";
-$dbname     = "bdd_nova";
-
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// =========================================
+// CONNEXION A LA BASE
+// =========================================
+require_once __DIR__ . '/../includes/db.php';
+$conn = $pdo; 
 
     // Obtener el mot du jour y su id
     $stmt = $conn->prepare("SELECT id_mot, mot FROM motdujour ORDER BY RAND() LIMIT 1");
@@ -17,9 +14,7 @@ try {
     $motMystere = strtoupper($result['mot']);
     $currentMotId = $result['id_mot'];
 
-    // Crear nueva partida al cargar la página
-    session_start();
-    $userId = isset($_SESSION['id']) ? $_SESSION['id'] : 1; // Usar usuario logueado o ID 1 como fallback
+    $userId = isset($_SESSION['id']) ? $_SESSION['id'] : 1; 
 
     $insertPartie = $conn->prepare("
         INSERT INTO partie (date_debut, statut, id_utilisateur, id_mot)
@@ -30,9 +25,6 @@ try {
     $insertPartie->execute();
     $currentPartieId = $conn->lastInsertId();
 
-} catch (PDOException $e) {
-    die("Erreur de connexion DB : " . $e->getMessage());
-}
 ?>
 
 <!DOCTYPE html>
@@ -351,23 +343,6 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 <script>
-    // TODO:
-    /*
-        1. (LISTO) Save result, points to DB, and save result to user
-            1a. (LISTO) Implement points
-            1b. (LISTO) Save result to DB (partie)
-        2. (LISTO) Add navbar
-        3. (LISTO) Fetch the magic word from database
-        4. (SEMI - LISTO) Add validation: you can only insert certain words
-            4a. Creer base de donnees
-            4b. Valider avec la bdd
-        6. (LISTO) Add post game, replace the alerts with something else
-        7. Being able to choose difficulty
-        9. Not being able to play until next word
-        10. Connect grille and id_utilisateur to mot du jour
-        
-    */
-
     let magicWord = '<?php echo $motMystere; ?>'
     let currentRow = 0 //0 a 4
     let currentCol = 0 //0 a 4

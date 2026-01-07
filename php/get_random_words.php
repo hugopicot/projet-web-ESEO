@@ -4,7 +4,6 @@ header('Content-Type: application/json');
 try {
     include '../includes/db.php';
 
-    // Obtener 12 palabras aleatorias de la tabla motdujour
     $stmt = $pdo->query("SELECT UPPER(mot) as mot FROM motdujour ORDER BY RAND() LIMIT 12");
     $words = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
