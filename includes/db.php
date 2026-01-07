@@ -30,17 +30,19 @@ function loadEnv($path) {
 $envPath = __DIR__ . '/../.env';
 loadEnv($envPath);
 
-$host = getenv('DB_HOST') ?: 'mysql.railway.internal';
-$dbname = getenv('DB_NAME') ?: getenv('MYSQLDATABASE') ?: 'railway';
-$username = getenv('DB_USER') ?: getenv('MYSQLUSER') ?: 'root';
-$password = getenv('DB_PASS') ?: getenv('MYSQLPASSWORD') ?: '';
+$host = getenv('MYSQLHOST') ?: 'localhost';
+$port = getenv('MYSQLPORT') ?: '3306';
+$dbname = getenv('MYSQLDATABASE') ?: 'railway';
+$username = getenv('MYSQLUSER') ?: 'root';
+$password = getenv('MYSQLPASSWORD') ?: '';
 $charset = getenv('DB_CHARSET') ?: 'utf8mb4';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=$charset", $username, $password);
+    $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=$charset";
+    $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Erreur de connexion à la base de données. Verifica las variables de entorno.");
+    die("Error connexion BDD.");
 }
 ?>
